@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Presentación de llave: la plataforma que conecta conductores con talleres mecánicos de confianza en Quilmes.">
+<meta name="description" content="llave · early pitch: por qué elegir un taller mecánico de confianza en Quilmes es un problema de información.">
 <meta name="theme-color" content="#0B1F4D">
 <style>body{margin:0}</style>
 <title>llave</title>
@@ -21,15 +21,9 @@
 
   /* ===== Identidad llave: azul, naranja y blanco ===== */
   :root { color-scheme: dark;
-    --blue: #0B1F4D;      /* fondo */
-    --blue-2: #13296A;    /* superficies */
-    --blue-3: #22408F;
-    --orange: #FF6A2B;
-    --orange-2: #FF9A5C;
-    --white: #FFFFFF;
-    --dim: rgba(255,255,255,0.64);
-    --faint: rgba(255,255,255,0.38);
-    /* interfaz de la app (modo claro) */
+    --blue: #0B1F4D; --blue-2: #13296A; --blue-3: #22408F;
+    --orange: #FF6A2B; --orange-2: #FF9A5C;
+    --white: #FFFFFF; --dim: rgba(255,255,255,0.64); --faint: rgba(255,255,255,0.38);
     --app-bg: #F2F4F9; --app-card: #FFFFFF; --app-ink: #0B1F4D; --app-sub: #63708A; --app-line: #E3E8F1;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,20 +31,29 @@
   body { font-family: "Instrument Sans", sans-serif; color: var(--white); -webkit-font-smoothing: antialiased; }
   #root { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; background: var(--blue); overflow: hidden; transform-origin: 50% 50%; }
   svg.i { width: 1em; height: 1em; flex: none; }
-
   .scene { position: absolute; inset: 0; visibility: hidden; }
-  .frag { opacity: 0; }
+  [data-show] { opacity: 0; }
+  .x { position: absolute; }
 
   /* Tipografía */
   .h-xl { font-size: 128px; font-weight: 600; line-height: 0.98; letter-spacing: -0.045em; }
-  .h-l  { font-size: 100px; font-weight: 600; line-height: 1.0;  letter-spacing: -0.04em; }
-  .h-m  { font-size: 76px;  font-weight: 600; line-height: 1.04; letter-spacing: -0.035em; }
-  .h-s  { font-size: 52px;  font-weight: 600; line-height: 1.1;  letter-spacing: -0.025em; }
-  .lead { font-size: 40px; line-height: 1.35; color: var(--dim); letter-spacing: -0.01em; }
+  .h-l  { font-size: 96px;  font-weight: 600; line-height: 1.02; letter-spacing: -0.04em; }
+  .h-m  { font-size: 72px;  font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; }
+  .h-s  { font-size: 50px;  font-weight: 600; line-height: 1.12; letter-spacing: -0.025em; }
+  .lead { font-size: 42px; line-height: 1.32; color: var(--dim); letter-spacing: -0.01em; }
   .body { font-size: 34px; line-height: 1.4; color: var(--dim); }
+  .src  { font-size: 24px; color: var(--faint); }
   .dim { color: var(--dim); }
   .or { color: var(--orange); }
-  .x { position: absolute; }
+
+  /* Encabezado de cada slide */
+  .hdr { position: absolute; left: 140px; right: 140px; top: 54px; display: flex; justify-content: space-between; align-items: center; font-size: 26px; color: var(--dim); }
+  .hdr .brand { display: flex; align-items: center; gap: 14px; color: #fff; font-weight: 700; font-size: 32px; letter-spacing: -0.03em; }
+  .hdr .brand img { width: 44px; height: 44px; }
+  .hdr .where { display: flex; align-items: center; gap: 18px; }
+  .hdr .num { font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+  .hdr .num b { color: var(--orange); }
+  .hdr .who { padding: 8px 20px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,0.2); color: #fff; font-weight: 600; }
 
   /* Vidrio */
   .glass { position: relative; border-radius: 40px;
@@ -62,102 +65,112 @@
     border: 1.5px solid rgba(255,106,43,0.7); color: var(--orange-2); }
 
   /* ===== iPhone ===== */
-  .phone { position: absolute; left: 0; top: 0; width: 400px; height: 820px; border-radius: 68px; padding: 13px;
+  .phone { position: absolute; width: 400px; height: 820px; border-radius: 68px; padding: 13px;
     background: linear-gradient(145deg, #3A4560, #151C2C 40%, #2A3348);
     box-shadow: 0 0 0 1.5px rgba(255,255,255,0.18), inset 0 0 0 2px #0A0E17, 0 60px 120px rgba(2,8,28,0.55); }
   .phone .scr { position: relative; width: 100%; height: 100%; border-radius: 56px; overflow: hidden; background: var(--app-bg); }
-  .phone .island { position: absolute; top: 14px; left: 50%; width: 118px; height: 34px; margin-left: -59px; background: #000; border-radius: 20px; z-index: 30; }
-  .app { position: absolute; inset: 0; font-family: "Instrument Sans", sans-serif; color: var(--app-ink); }
-  #phone .app { visibility: hidden; }
+  .phone .island { position: absolute; top: 14px; left: 50%; width: 118px; height: 34px; margin-left: -59px; background: #000; border-radius: 20px; z-index: 50; }
+  .app { position: absolute; inset: 0; color: var(--app-ink); background: var(--app-bg); }
   .sb { position: absolute; top: 18px; left: 34px; right: 30px; display: flex; justify-content: space-between; font-size: 16px; font-weight: 600; z-index: 20; }
-  .sb b { letter-spacing: 0.02em; }
-  .sb span { display: flex; gap: 6px; align-items: center; }
   .sb i { display: inline-block; width: 24px; height: 11px; border-radius: 3px; border: 1.5px solid currentColor; position: relative; }
   .sb i::after { content: ""; position: absolute; inset: 1.5px; right: 5px; background: currentColor; border-radius: 1px; }
-  .app .top { position: absolute; left: 22px; right: 22px; top: 62px; }
-  .app h4 { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; }
-  .app .sub { font-size: 15px; color: var(--app-sub); }
-  .card-a { background: var(--app-card); border-radius: 22px; padding: 14px 16px; box-shadow: 0 1px 0 var(--app-line); }
-  .row { display: flex; align-items: center; gap: 12px; }
-  .av { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 16px; flex: none; }
-  .btn { background: var(--orange); color: #fff; border-radius: 16px; text-align: center; padding: 15px; font-weight: 700; font-size: 17px; }
-  .ver { color: var(--orange); font-weight: 600; font-size: 13px; display: inline-flex; gap: 4px; align-items: center; }
-  .stars { color: var(--orange); font-size: 15px; font-weight: 700; display: inline-flex; gap: 4px; align-items: center; }
   .g-ui { background: rgba(255,255,255,0.62); -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%);
     border: 1px solid rgba(255,255,255,0.85); box-shadow: 0 10px 30px rgba(11,31,77,0.14), inset 0 1px 0 #fff; }
-  .tabbar { position: absolute; left: 50%; bottom: 20px; width: 300px; margin-left: -150px; height: 64px; border-radius: 32px; display: flex; justify-content: space-around; align-items: center; z-index: 15; }
-  .tabbar span { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; font-weight: 600; color: var(--app-sub); }
-  .tabbar span.on { color: var(--orange); }
-  .tabbar svg { width: 22px; height: 22px; }
-  .map { position: absolute; left: 0; right: 0; top: 0; background: #E3E9F3; overflow: hidden; }
+  .row { display: flex; align-items: center; gap: 12px; }
+  .av { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 16px; flex: none; background: #E3EAF8; color: var(--app-ink); }
+  .stars { color: var(--orange); font-size: 15px; font-weight: 700; }
+
+  /* Pantalla bloqueada */
+  .lock { background: radial-gradient(120% 70% at 50% 110%, rgba(255,106,43,0.55), transparent 60%), linear-gradient(180deg, #1B3A8A, #0B1F4D 70%); color: #fff; }
+  .lock .tm { position: absolute; left: 0; right: 0; top: 110px; text-align: center; font-size: 92px; font-weight: 600; letter-spacing: -0.04em; }
+  .lock .dt { position: absolute; left: 0; right: 0; top: 92px; text-align: center; font-size: 19px; font-weight: 600; opacity: 0.85; }
+  .notif { position: absolute; left: 16px; right: 16px; top: 300px; border-radius: 26px; padding: 14px 16px; color: #fff;
+    background: rgba(255,255,255,0.18); -webkit-backdrop-filter: blur(20px) saturate(160%); backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.28); box-shadow: inset 0 1px 0 rgba(255,255,255,0.35); }
+  .notif .ic { width: 38px; height: 38px; border-radius: 10px; background: var(--orange); display: grid; place-items: center; flex: none; }
+  .notif .ic svg { width: 22px; height: 22px; color: #fff; }
+  .notif .h { display: flex; justify-content: space-between; font-size: 13px; opacity: 0.8; font-weight: 600; }
+  .notif b { display: block; font-size: 17px; margin-top: 2px; }
+  .notif p { font-size: 15px; opacity: 0.9; margin-top: 1px; }
+
+  /* Mapa genérico */
+  .map { position: absolute; left: 0; right: 0; top: 0; height: 400px; background: #E3E9F3; overflow: hidden; }
   .map svg.streets { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .mpin { position: absolute; width: 38px; height: 38px; margin: -38px 0 0 -19px; color: var(--orange); }
-  .mpin svg { width: 38px; height: 38px; fill: currentColor; stroke: #fff; stroke-width: 1.6; }
-  .me { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: #2F6BFF; border: 4px solid #fff; box-shadow: 0 0 0 10px rgba(47,107,255,0.18); }
+  .mpin { position: absolute; width: 30px; height: 30px; margin: -30px 0 0 -15px; color: #8A96AE; }
+  .mpin svg { width: 30px; height: 30px; fill: currentColor; stroke: #fff; stroke-width: 1.6; }
+  .search { position: absolute; left: 18px; right: 18px; top: 60px; height: 52px; border-radius: 26px; display: flex; align-items: center; gap: 10px; padding: 0 18px; font-size: 16px; font-weight: 500; color: var(--app-ink); z-index: 5; }
+  .sheet { position: absolute; left: 0; right: 0; top: 370px; bottom: 0; background: var(--app-bg); border-radius: 28px 28px 0 0; padding: 14px 18px 0; }
+  .res { background: #fff; border-radius: 18px; padding: 12px 14px; margin-top: 8px; display: flex; align-items: center; gap: 12px; }
+  .res b { font-size: 16px; display: block; }
+  .res small { font-size: 13px; color: var(--app-sub); }
 
-  /* Chats (slide 3) */
-  .chat-row { display: flex; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--app-line); }
-  .chat-row .t { flex: 1; min-width: 0; }
-  .chat-row .n { font-weight: 700; font-size: 17px; display: flex; justify-content: space-between; }
-  .chat-row .n small { font-weight: 500; font-size: 13px; color: var(--app-sub); }
-  .chat-row .m { font-size: 15px; color: var(--app-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .badge { min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--orange); color: #fff; font-size: 12px; font-weight: 700; display: grid; place-items: center; }
-  .bubble-me { align-self: flex-end; background: var(--orange); color: #fff; border-radius: 18px 18px 6px 18px; padding: 10px 14px; font-size: 15px; max-width: 250px; }
-  .bubble-t { align-self: flex-start; background: #fff; border-radius: 18px 18px 18px 6px; padding: 10px 14px; font-size: 15px; max-width: 250px; box-shadow: 0 1px 0 var(--app-line); }
+  /* Chat genérico */
+  .chat-h { position: absolute; left: 0; right: 0; top: 0; height: 112px; padding: 56px 16px 0; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.9); border-bottom: 1px solid var(--app-line); z-index: 5; }
+  .chat-h svg { width: 22px; height: 22px; color: var(--app-sub); }
+  .chat-h b { font-size: 17px; display: block; }
+  .chat-h small { font-size: 13px; color: var(--app-sub); }
+  .msgs { position: absolute; left: 14px; right: 14px; top: 128px; display: flex; flex-direction: column; gap: 8px; }
+  .me, .th { border-radius: 18px; padding: 10px 14px; font-size: 15.5px; line-height: 1.35; max-width: 270px; }
+  .me { align-self: flex-end; background: var(--orange); color: #fff; border-bottom-right-radius: 6px; }
+  .th { align-self: flex-start; background: #fff; border-bottom-left-radius: 6px; box-shadow: 0 1px 0 var(--app-line); }
+  .th.hot b { font-size: 22px; letter-spacing: -0.02em; }
+  .tsep { align-self: center; font-size: 12px; font-weight: 600; color: var(--app-sub); padding: 4px 10px; border-radius: 10px; background: #E6EAF2; margin: 4px 0; }
+  .msgs.focus > :not(.hot) { opacity: 0.3 !important; }
+  .msgs.focus .th.hot { box-shadow: 0 0 0 3px var(--orange), 0 14px 30px rgba(255,106,43,0.35); }
 
-  /* Slides específicos */
-  #s-portada .icon { width: 180px; height: 180px; filter: drop-shadow(0 30px 60px rgba(255,106,43,0.35)); }
-  #s-portada .word { font-size: 230px; font-weight: 700; letter-spacing: -0.06em; line-height: 0.9; margin-top: 30px; }
-  #s-portada .slog { display: flex; gap: 26px; font-size: 56px; font-weight: 500; letter-spacing: -0.02em; margin-top: 40px; color: var(--faint); }
-  #s-portada .meta { position: absolute; left: 140px; right: 140px; bottom: 90px; display: flex; gap: 80px; font-size: 28px; color: var(--dim); }
-  #s-portada .meta .team { display: flex; gap: 44px; }
+  /* Datos */
+  .bignum { font-weight: 700; letter-spacing: -0.06em; line-height: 0.85; color: var(--orange); font-variant-numeric: tabular-nums; }
+  .stat .bignum { font-size: 140px; white-space: nowrap; }
+  .stat p { font-size: 34px; line-height: 1.3; color: var(--dim); margin-top: 18px; }
 
-  .doubt { display: flex; align-items: center; gap: 22px; padding: 30px 38px; font-size: 40px; font-weight: 500; letter-spacing: -0.015em; }
-  .doubt svg { width: 40px; height: 40px; color: var(--orange); }
+  .card3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .card3 .glass { padding: 40px 44px; display: flex; flex-direction: column; gap: 14px; }
+  .card3 svg { width: 56px; height: 56px; color: var(--orange); }
+  .card3 h3 { font-size: 50px; font-weight: 600; letter-spacing: -0.03em; margin-top: 6px; }
+  .card3 p { font-size: 34px; color: var(--dim); line-height: 1.3; }
 
-  .col3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-  .panel { padding: 46px 44px; display: flex; flex-direction: column; gap: 22px; }
-  .panel h3 { font-size: 46px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.08; }
-  .panel p { font-size: 32px; line-height: 1.38; color: var(--dim); }
-  .bignum { font-size: 150px; font-weight: 700; letter-spacing: -0.06em; line-height: 0.9; color: var(--orange); }
+  .bars .r { display: grid; grid-template-columns: 720px 1fr 130px; align-items: center; gap: 32px; padding: 18px 0; font-size: 40px; }
+  .bars .r:first-child span:first-child { color: #fff; font-weight: 600; }
+  .bars .b { height: 22px; border-radius: 11px; background: rgba(255,255,255,0.1); overflow: hidden; }
+  .bars .b i { display: block; height: 100%; width: 0; border-radius: 11px; background: rgba(255,255,255,0.8); }
+  .bars .r:nth-child(-n+3) .b i { background: var(--orange); }
+  .bars .p { text-align: right; font-weight: 700; }
 
-  /* Segmentado (slide 6) */
-  .seg { display: inline-flex; position: relative; padding: 8px; border-radius: 999px; }
-  .seg span { position: relative; z-index: 2; padding: 16px 30px; font-size: 32px; font-weight: 600; color: var(--dim); }
-  .seg span.on { color: #fff; }
-  .seg .knob { position: absolute; z-index: 1; top: 8px; bottom: 8px; left: 8px; width: 100px; border-radius: 999px; background: var(--orange); box-shadow: 0 8px 24px rgba(255,106,43,0.45); }
+  .quote { padding: 50px 56px 46px; display: flex; flex-direction: column; gap: 26px; }
+  .quote .qm { font-size: 120px; line-height: 0.5; height: 46px; color: var(--orange); font-weight: 700; }
+  .quote p { font-size: 50px; font-weight: 500; line-height: 1.18; letter-spacing: -0.02em; }
+  .quote small { font-size: 28px; color: var(--dim); }
 
-  /* Seguimiento (slide 8) */
-  .track { width: 720px; padding: 40px 44px; }
-  .step { display: flex; align-items: center; gap: 24px; padding: 17px 0; position: relative; }
-  .step .dot { width: 40px; height: 40px; border-radius: 50%; border: 2.5px solid rgba(255,255,255,0.3); display: grid; place-items: center; flex: none; position: relative; z-index: 2; background: var(--blue-2); }
-  .step .dot svg { width: 22px; height: 22px; color: #fff; opacity: 0; }
-  .step.done .dot { background: var(--orange); border-color: var(--orange); }
-  .step.done .dot svg { opacity: 1; }
-  .step .lbl { flex: 1; font-size: 34px; font-weight: 500; color: var(--faint); letter-spacing: -0.01em; }
-  .step.done .lbl { color: #fff; }
-  .step .tm { font-size: 24px; color: var(--faint); }
-  .track .rail { position: absolute; left: 63px; top: 60px; bottom: 60px; width: 2.5px; background: rgba(255,255,255,0.15); }
-  .track .rail i { position: absolute; left: 0; top: 0; width: 100%; height: 0%; background: var(--orange); }
+  .prof { display: grid; grid-template-columns: repeat(5, 1fr); gap: 30px; text-align: center; }
+  .prof .c { width: 170px; height: 170px; border-radius: 50%; margin: 0 auto; display: grid; place-items: center; }
+  .prof .c svg { width: 70px; height: 70px; color: var(--orange); }
+  .prof p { font-size: 34px; font-weight: 600; margin-top: 26px; line-height: 1.2; letter-spacing: -0.015em; }
 
-  /* Precios */
-  .price { font-size: 92px; font-weight: 700; letter-spacing: -0.05em; line-height: 1; }
-  .price small { font-size: 32px; font-weight: 500; color: var(--dim); letter-spacing: 0; }
+  .list h3 { display: flex; align-items: center; gap: 18px; font-size: 50px; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 18px; }
+  .list h3 .ic { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; flex: none; }
+  .list h3 .ic svg { width: 36px; height: 36px; }
+  .list.ok h3 .ic { background: var(--orange); color: #fff; }
+  .list.no h3 .ic { border: 2.5px solid rgba(255,255,255,0.5); color: #fff; }
+  .list li { list-style: none; font-size: 40px; line-height: 1.25; padding: 22px 0; border-top: 1.5px solid rgba(255,255,255,0.12); letter-spacing: -0.01em; }
+  .list.no li { color: var(--dim); }
 
-  /* Barras */
-  .bars .r { display: grid; grid-template-columns: 640px 1fr 110px; align-items: center; gap: 28px; padding: 13px 0; font-size: 34px; }
-  .bars .b { height: 18px; border-radius: 9px; background: rgba(255,255,255,0.1); overflow: hidden; }
-  .bars .b i { display: block; height: 100%; width: 0; border-radius: 9px; background: var(--orange); }
-  .bars .p { text-align: right; font-weight: 600; }
+  /* Hub STEM */
+  .node { position: absolute; width: 560px; padding: 32px 38px; display: flex; gap: 24px; align-items: flex-start; }
+  .node .ic { width: 76px; height: 76px; border-radius: 22px; background: rgba(255,106,43,0.14); border: 1.5px solid rgba(255,106,43,0.5); display: grid; place-items: center; flex: none; }
+  .node .ic svg { width: 40px; height: 40px; color: var(--orange); }
+  .node h3 { font-size: 42px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; }
+  .node p { font-size: 30px; color: var(--dim); line-height: 1.3; margin-top: 8px; }
+  .core { position: absolute; width: 300px; height: 300px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; }
+  .core img { width: 92px; height: 92px; }
+  .core p { font-size: 32px; font-weight: 600; line-height: 1.12; letter-spacing: -0.02em; }
 
-  .dots5 { display: flex; gap: 12px; margin-bottom: 20px; }
-  .dots5 i { width: 40px; height: 40px; border-radius: 50%; border: 2.5px solid rgba(255,255,255,0.3); }
-  .dots5 i.on { background: var(--orange); border-color: var(--orange); }
-
-  /* Tablet (slide 5) */
-  .tablet { position: absolute; width: 760px; height: 560px; border-radius: 44px; padding: 14px; background: linear-gradient(145deg, #3A4560, #151C2C 40%, #2A3348);
-    box-shadow: 0 0 0 1.5px rgba(255,255,255,0.18), 0 60px 120px rgba(2,8,28,0.55); }
-  .tablet .scr { width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: var(--app-bg); color: var(--app-ink); position: relative; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; position: relative; }
+  .steps .s { position: relative; padding-top: 74px; }
+  .steps .s i { position: absolute; left: 0; top: 0; width: 44px; height: 44px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.35); background: var(--blue); z-index: 2; }
+  .steps .s.on i { background: var(--orange); border-color: var(--orange); box-shadow: 0 0 0 12px rgba(255,106,43,0.2); }
+  .steps .s small { font-size: 28px; font-weight: 600; color: var(--orange-2); display: block; margin-bottom: 8px; }
+  .steps .s p { font-size: 46px; font-weight: 600; line-height: 1.12; letter-spacing: -0.025em; }
+  .steps .s:not(.on) p { color: var(--dim); }
 
   #fit { position: fixed; inset: 0; overflow: hidden; background: var(--blue); touch-action: pan-y; }
   #nav { position: fixed; z-index: 100; display: flex; align-items: center; gap: 4px; padding: 6px;
@@ -182,512 +195,286 @@
 <div id="fit">
 
 <svg width="0" height="0" style="position:absolute">
-<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" />
-  <path d="m21 21-4.3-4.3" /></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+  <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></symbol>
 <symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
   <circle cx="12" cy="10" r="3" /></symbol>
-<symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol>
-<symbol id="i-shield-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-  <path d="m9 12 2 2 4-4" /></symbol>
-<symbol id="i-message-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></symbol>
-<symbol id="i-calendar-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4" />
-  <path d="M16 2v4" />
-  <rect width="18" height="18" x="3" y="4" rx="2" />
-  <path d="M3 10h18" />
-  <path d="m9 16 2 2 4-4" /></symbol>
-<symbol id="i-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></symbol>
-<symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
-  <circle cx="7" cy="17" r="2" />
-  <path d="M9 17h6" />
-  <circle cx="17" cy="17" r="2" /></symbol>
-<symbol id="i-store" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7" />
-  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-  <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
-  <path d="M2 7h20" />
-  <path d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7" /></symbol>
-<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></symbol>
-<symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" />
-  <path d="m6 6 12 12" /></symbol>
-<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" />
-  <polyline points="12 6 12 12 16 14" /></symbol>
-<symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></symbol>
-<symbol id="i-sliders-horizontal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" x2="14" y1="4" y2="4" />
-  <line x1="10" x2="3" y1="4" y2="4" />
-  <line x1="21" x2="12" y1="12" y2="12" />
-  <line x1="8" x2="3" y1="12" y2="12" />
-  <line x1="21" x2="16" y1="20" y2="20" />
-  <line x1="12" x2="3" y1="20" y2="20" />
-  <line x1="14" x2="14" y1="2" y2="6" />
-  <line x1="8" x2="8" y1="10" y2="14" />
-  <line x1="16" x2="16" y1="18" y2="22" /></symbol>
-<symbol id="i-house" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
-  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></symbol>
-<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-  <circle cx="12" cy="7" r="4" /></symbol>
-<symbol id="i-badge-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
-  <path d="m9 12 2 2 4-4" /></symbol>
-<symbol id="i-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-  <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-  <path d="M10 9H8" />
-  <path d="M16 13H8" />
-  <path d="M16 17H8" /></symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8" />
+  <path d="m21 21-4.3-4.3" /></symbol>
+<symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></symbol>
+<symbol id="i-stethoscope" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v2" />
+  <path d="M5 2v2" />
+  <path d="M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1" />
+  <path d="M8 15a6 6 0 0 0 12 0v-3" />
+  <circle cx="20" cy="10" r="2" /></symbol>
 <symbol id="i-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
   <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
   <path d="M7 21h10" />
   <path d="M12 3v18" />
   <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" /></symbol>
-<symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-  <circle cx="9" cy="7" r="4" />
-  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-  <path d="M16 3.13a4 4 0 0 1 0 7.75" /></symbol>
-<symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
-  <path d="m21.854 2.147-10.94 10.939" /></symbol>
-<symbol id="i-navigation" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11" /></symbol>
-<symbol id="i-circle-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" />
-  <path d="m9 12 2 2 4-4" /></symbol>
-<symbol id="i-clipboard-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
-  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-  <path d="M12 11h4" />
-  <path d="M12 16h4" />
-  <path d="M8 11h.01" />
-  <path d="M8 16h.01" /></symbol>
-<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-  <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></symbol>
+<symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol>
+<symbol id="i-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></symbol>
+<symbol id="i-disc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" />
+  <circle cx="12" cy="12" r="2" /></symbol>
+<symbol id="i-store" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7" />
+  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+  <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
+  <path d="M2 7h20" />
+  <path d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7" /></symbol>
+<symbol id="i-building-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+  <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+  <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+  <path d="M10 6h4" />
+  <path d="M10 10h4" />
+  <path d="M10 14h4" />
+  <path d="M10 18h4" /></symbol>
 <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></symbol>
-<symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" />
-  <path d="m12 5 7 7-7 7" /></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></symbol>
+<symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" />
+  <path d="m6 6 12 12" /></symbol>
+<symbol id="i-database" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3" />
+  <path d="M3 5V19A9 3 0 0 0 21 19V5" />
+  <path d="M3 12A9 3 0 0 0 21 12" /></symbol>
+<symbol id="i-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" />
+  <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" />
+  <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" />
+  <path d="M17.599 6.5a3 3 0 0 0 .399-1.375" />
+  <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" />
+  <path d="M3.477 10.896a4 4 0 0 1 .585-.396" />
+  <path d="M19.938 10.5a4 4 0 0 1 .585.396" />
+  <path d="M6 18a4 4 0 0 1-1.967-.516" />
+  <path d="M19.967 17.484A4 4 0 0 1 18 18" /></symbol>
+<symbol id="i-code-xml" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4" />
+  <path d="m6 8-4 4 4 4" />
+  <path d="m14.5 4-5 16" /></symbol>
+<symbol id="i-calendar-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5" />
+  <path d="M16 2v4" />
+  <path d="M8 2v4" />
+  <path d="M3 10h5" />
+  <path d="M17.5 17.5 16 16.3V14" />
+  <circle cx="16" cy="16" r="6" /></symbol>
 </svg>
-
 
 <script type="application/hyperframes-slideshow+json">
 {
   "slides": [
-    { "sceneId": "portada", "notes": "INTEGRANTE 1 (0:00). Buenas a todos. Somos Integrante 1, Integrante 2, Integrante 3 y Integrante 4, y les venimos a presentar llave: una plataforma que conecta a conductores con talleres mecánicos de confianza, empezando por Quilmes." },
-    { "sceneId": "problema", "fragments": [6.5, 7.5, 8.5], "notes": "INTEGRANTE 1. Arranquemos con una pregunta: cuando el auto falla, ¿a quién se lo llevan? Casi siempre: al que me recomendó alguien. [CLIC] Y ahí aparecen las dudas: ¿el precio es justo? ¿La falla es la que me dicen? ¿El trabajo va a quedar bien? ¿Las opiniones son de clientes reales? [CLIC] El fondo del problema: el mecánico sabe mucho más que el cliente, y el cliente no tiene con qué comparar." },
-    { "sceneId": "proceso", "fragments": [12.5, 13.5], "notes": "INTEGRANTE 1. Hoy comparar talleres lleva un trabajo enorme: buscarlos uno por uno, llamar o escribir por WhatsApp, explicar el mismo problema varias veces, esperar presupuestos que describen el trabajo cada uno a su manera, y recién ahí coordinar un turno. [CLIC] Y del otro lado: muchos talleres independientes dependen del boca en boca y no tienen una forma ordenada de conseguir clientes nuevos." },
-    { "sceneId": "contexto", "notes": "INTEGRANTE 1. Esto se apoya en tres cosas. Primero, la asimetría de información: el cliente describe síntomas, pero necesita al profesional para saber la causa. Segundo, las reseñas online ayudan, pero cuesta saber si una opinión viene de alguien que realmente hizo un trabajo. Y tercero, la Ley 24.240 de Defensa del Consumidor ya marca lo importante que son los presupuestos claros y documentados. Le paso a Integrante 2." },
-    { "sceneId": "usuarios", "notes": "INTEGRANTE 2 (2:00). Nuestra plataforma tiene dos tipos de usuarios, y los dos son igual de importantes. Los conductores, que quieren encontrar un taller cerca, confiable, con precios claros y sin perder tiempo. Y los talleres, que quieren más visibilidad, consultas de clientes nuevos y una reputación que se vea. Los conductores traen la demanda; los talleres sostienen el negocio." },
-    { "sceneId": "solucion", "notes": "INTEGRANTE 2. Por eso creamos llave. La idea es que encontrar un mecánico confiable sea más fácil y transparente, y que los talleres tengan una nueva herramienta para conseguir clientes. Todo en un solo lugar: buscar, comparar, chatear, reservar y opinar." },
-    { "sceneId": "hibrido", "fragments": [36.5, 37.5, 38.5], "notes": "INTEGRANTE 2. Funciona de dos maneras. Modalidad A: el conductor busca talleres en el mapa, filtra por especialidad, distancia o reputación, ve precios orientativos y pide turno directo. [CLIC] Modalidad B: describe el problema una sola vez y se lo manda a varios talleres compatibles, que responden con presupuestos para comparar. [CLIC] Las dos comparten la misma base: chat, turnos y reputación." },
-    { "sceneId": "recorrido", "notes": "INTEGRANTE 2. Un ejemplo. Laura escucha un ruido en el tren delantero. Entra a llave, carga su auto y pide presupuestos. Recibe tres propuestas de diagnóstico y las compara por precio, reputación y disponibilidad. Consulta por chat y reserva. Después del trabajo, ella y el taller confirman que se hizo, y recién ahí puede dejar su reseña. Integrante 3 les cuenta por qué ese paso es tan importante." },
-    { "sceneId": "resenas", "fragments": [48.5, 49.5], "notes": "INTEGRANTE 3 (4:00). Ese último paso es nuestro diferencial: la reseña verificada. Solo puede opinar quien hizo un servicio registrado y confirmado por las dos partes. Así cada opinión está atada a un trabajo real. [CLIC] Pero seamos claros: esto no certifica la calidad técnica de una reparación. Lo que garantiza es que la experiencia que se cuenta existió." },
-    { "sceneId": "negocio", "fragments": [54.5, 55.5], "notes": "INTEGRANTE 3. Para los conductores es gratis. Los talleres tienen 30 días de prueba sin costo y después pagan una suscripción mensual fija, sin comisión por cada trabajo. Además pueden pagar publicidad para destacarse, siempre marcada como patrocinada. [CLIC] Como hipótesis usamos 35 mil pesos de suscripción y 15 mil de publicidad. Con 50 talleres y 10 anunciantes serían 1,9 millones de facturación bruta por mes. Es un escenario para entender el modelo, no una proyección." },
-    { "sceneId": "competencia", "fragments": [60.5, 61.5], "notes": "INTEGRANTE 3. No somos los únicos, y lo sabemos. Google Maps y Bosch Car Service sirven para encontrar talleres. TallerOS y mecapp ayudan a los talleres a organizarse. Y Rutiox, en Argentina, o ClickMechanic, en el Reino Unido, son las propuestas más parecidas. [CLIC] Nuestra apuesta no es inventar funciones nuevas, sino juntarlas en una experiencia local: presupuestos comparables, reseñas verificadas y clientes medibles para el taller. Integrante 4 les cuenta cómo lo validamos." },
-    { "sceneId": "validacion", "notes": "INTEGRANTE 4 (6:00). Hoy estamos en etapa de validación, y queremos ser honestos: todavía no está demostrado. Hicimos una encuesta a conductores, sobre todo de Quilmes, y cinco entrevistas a talleres con perfiles distintos. En las entrevistas primero preguntamos por sus problemas y recién al final presentamos la idea, para no influir en las respuestas." },
-    { "sceneId": "encuesta", "notes": "INTEGRANTE 4. [DATOS DE EJEMPLO, reemplazar] Respondieron 80 personas. El 54% encontró su último taller por recomendación, y al 58% le resulta difícil encontrar uno de confianza. La mayor preocupación es no saber si el precio es justo. Y el 72% dice que probablemente usaría una plataforma así; aunque decir que la usarían no es lo mismo que usarla." },
-    { "sceneId": "entrevistas", "notes": "INTEGRANTE 4. [DATOS DE EJEMPLO, reemplazar] En los talleres, 4 de 5 quieren más clientes y 4 de 5 aceptarían la prueba gratis. Para pagar, piden ver resultados: entre 4 y 8 clientes nuevos por mes, con una disposición de pago de 20 a 40 mil pesos." },
-    { "sceneId": "pasos", "fragments": [84.5, 85.5], "notes": "INTEGRANTE 4. Lo que sigue: terminar la investigación, diseñar el prototipo, desarrollar una versión web y hacer un piloto en Quilmes. [CLIC] Ahí vamos a medir lo que importa: si las consultas se convierten en turnos, los turnos en trabajos, y si los talleres pagan para seguir." },
-    { "sceneId": "cierre", "notes": "INTEGRANTE 4. En resumen: queremos que encontrar un mecánico confiable sea más fácil y transparente, y darles a los talleres una nueva fuente de clientes. Compará. Elegí. Confiá. Muchas gracias. ¿Preguntas?" }
+    { "sceneId": "escenario", "fragments": [0.5, 1.5, 2.5, 3.5, 4.5, 5.5], "notes": "INTEGRANTE 1 (0:00 – 2:00). Él es Lucas. Vive en Quilmes, tiene un Gol 2014 y el celular le avisa que ya le toca el service: cambio de aceite y filtros. Algo simple, ¿no? [CLIC] Entonces busca un taller. Aparecen decenas a pocas cuadras. Todos dicen ser buenos y todos tienen más o menos 4,5 estrellas. ¿Cómo elige? No sabe. Así que elige uno casi al azar. [CLIC] Le escribe, lleva el auto y al rato le llega este mensaje: «Ya que estamos, hay que cambiar pastillas, discos y amortiguadores. Te queda todo en 480 mil pesos». Lucas pregunta si es urgente. «Si no lo hacés, es peligroso». [CLIC] ¿Era necesario? Lucas no tiene forma de saberlo. [CLIC] Y Lucas no es la excepción. En Argentina circulan casi 16 millones de vehículos, con casi 15 años de antigüedad promedio. Autos más viejos significan más visitas al taller. Y solo en Quilmes viven más de 630 mil personas. [CLIC] Cuando empezamos, creíamos que el problema era encontrar un taller barato. Pero en el campo descubrimos otra cosa: el conductor no puede verificar nada. Ni el diagnóstico, ni el precio, ni la reputación del taller. En economía esto tiene nombre: es un «bien de confianza», porque incluso después de pagar no sabés si lo que te hicieron era necesario. Lo llamamos «mala suerte con el mecánico», pero es un problema de información. Integrante 2 les cuenta cómo lo comprobamos." },
+    { "sceneId": "campo", "fragments": [12.5, 13.5, 14.5], "notes": "INTEGRANTE 2 (2:00 – 4:00). Para no quedarnos con una intuición, salimos a preguntar. Encuestamos a 80 conductores, la mayoría de Quilmes y alrededores. El 58% nos dijo que le resulta difícil encontrar un taller de confianza. Y el 63% ya tuvo una mala experiencia con algún taller. Lo de Lucas no es un caso aislado: es lo más común. [CLIC] Después les preguntamos qué les preocupa más al elegir. Primero: no saber si el precio es justo, 71%. Segundo: desconfiar del diagnóstico, 64%. Tercero: no conocer la calidad del trabajo. Fíjense que son exactamente las tres cosas que dijimos antes: precio, diagnóstico y reputación. Lo que el conductor no puede verificar. [CLIC] Y lo que nos contaron confirma los números. Un conductor de Bernal nos dijo: «Fui a cambiar el aceite y me quisieron cambiar medio auto». Es literalmente la historia de Lucas. Y una conductora de Quilmes: «Siempre voy al mismo. No porque sea bueno, sino porque no conozco otro». La gente no elige al mejor taller: elige al único que conoce. Pero esta es solo la mirada del conductor. Para escuchar la otra campana, fuimos a hablar con los que están del otro lado del mostrador. Les cuenta Integrante 3." },
+    { "sceneId": "expertos", "fragments": [24.5, 25.5, 26.5, 27.5], "notes": "INTEGRANTE 3 (4:00 – 6:00). Entrevistamos a cinco talleres con perfiles distintos: uno de mecánica general, uno de frenos y suspensión, un taller chico independiente, uno grande y consolidado, y una persona de recepción, que es quien atiende las consultas todos los días. Primero les preguntamos por sus problemas y recién al final les contamos la idea, para no influir en sus respuestas. [CLIC] ¿Qué nos validaron? Que el cliente nuevo llega desconfiando del presupuesto. Que casi todo su trabajo viene del boca en boca. Y que responder consultas por WhatsApp, una por una, les lleva horas. El problema de confianza también les duele a ellos: les cuesta conseguir clientes nuevos porque nadie los conoce. [CLIC] Pero también nos dijeron qué no funcionaría, y eso nos sirvió todavía más. Primero: no se puede dar un presupuesto exacto sin ver el auto; como mucho, un rango o el costo del diagnóstico. Segundo: una reseña sin un trabajo real detrás no vale nada. Y tercero: ningún taller va a pagar antes de ver clientes concretos. [CLIC] Uno de ellos nos dejó esta frase: «El cliente nuevo llega pensando que le vamos a robar. Y la verdad, algunos talleres lo hacen». La desconfianza perjudica a los dos lados: al conductor, que no sabe a quién creerle, y al taller honesto, que no tiene cómo demostrarlo. Integrante 4 les cuenta qué hacemos con todo esto." },
+    { "sceneId": "stem", "fragments": [36.5, 37.5, 38.5, 39.5], "notes": "INTEGRANTE 4 (6:00 – 8:00). Después de todo este trabajo de campo, nuestro aporte es un cambio de encuadre: el problema no es encontrar un taller; es poder verificarlo. Planteado así, deja de ser un problema de suerte y pasa a ser un problema de información. Y los problemas de información se pueden atacar con ingeniería. [CLIC] Con ciencia de datos, a partir de presupuestos reales, se pueden construir precios de referencia por zona y por tipo de trabajo. Con inteligencia artificial, se puede pasar de los síntomas que describe el conductor a un prediagnóstico orientativo, para que llegue al taller sabiendo qué preguntar. Con ingeniería de software, se pueden diseñar reseñas que solo existan si hubo un servicio confirmado por las dos partes. Y con investigación operativa, se pueden organizar los turnos según la capacidad real de cada taller. [CLIC] Nuestros próximos pasos: hoy estamos terminando las encuestas y entrevistas. Después viene un prototipo para probar con conductores y talleres, y luego un piloto en Quilmes, donde vamos a medir si la confianza se convierte en turnos y trabajos reales. [CLIC] Volviendo a Lucas: él no necesita un taller más barato. Necesita poder confiar. Eso es llave. Compará, elegí, confiá. Muchas gracias. ¿Preguntas?" }
   ]
 }
 </script>
 
-<div id="root" data-composition-id="root" data-start="0" data-duration="96" data-width="1920" data-height="1080">
+<div id="root" data-composition-id="root" data-start="0" data-duration="48" data-width="1920" data-height="1080">
 
-  <!-- ===== 1 Portada ===== -->
-  <section id="s-portada" class="scene clip" data-composition-id="portada" data-start="0" data-duration="6" data-label="Portada" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:200px">
-      <img class="icon" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" alt="llave" data-in="pop" />
-      <div class="word" data-in="chars" data-d="0.3">llave</div>
-      <div class="slog"><span class="sw">Compará.</span><span class="sw">Elegí.</span><span class="sw">Confiá.</span></div>
-    </div>
-    <div class="meta" data-in="fade" data-d="1.8">
-      <div class="team"><span>Integrante 1</span><span>Integrante 2</span><span>Integrante 3</span><span>Integrante 4</span></div>
-      <span>Quilmes, 2026</span>
-    </div>
-  </section>
+  <!-- ===================== SLIDE 1 · El escenario (Integrante 1) ===================== -->
+  <section id="s-escenario" class="scene clip" data-composition-id="escenario" data-start="0" data-duration="12" data-label="1 · El escenario" data-width="1920" data-height="1080">
+    <div class="hdr" data-in="fade"><div class="brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" alt="" />llave</div><div class="where"><span class="num"><b>1</b> / 4</span><span>El escenario</span><span class="who">Integrante 1</span></div></div>
 
-  <!-- ===== 2 Problema ===== -->
-  <section id="s-problema" class="scene clip" data-composition-id="problema" data-start="6" data-duration="6" data-label="El problema" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:150px;width:1640px">
-      <p class="h-s dim" data-in="lines">Cuando el auto falla,</p>
-      <h2 class="h-xl" style="margin-top:14px" data-in="lines" data-d="0.25">¿a qué mecánico se lo llevás?</h2>
+    <!-- Historia de Lucas -->
+    <div class="x" data-show="0.5" data-hide="1.5" style="left:140px;top:330px;width:980px">
+      <h1 class="h-xl" data-in="lines">Él es Lucas.</h1>
+      <p class="lead" style="margin-top:40px" data-in="lines" data-d="0.35">Vive en Quilmes, maneja un Gol 2014 y le toca el service: aceite y filtros.</p>
     </div>
-    <div class="x frag" data-frag="7.5" style="left:140px;top:500px;width:1640px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
-      <div class="glass doubt"><svg class="i"><use href="#i-scale"/></svg>¿El precio es justo?</div>
-      <div class="glass doubt"><svg class="i"><use href="#i-wrench"/></svg>¿La falla es la que me dicen?</div>
-      <div class="glass doubt"><svg class="i"><use href="#i-badge-check"/></svg>¿El trabajo va a quedar bien?</div>
-      <div class="glass doubt"><svg class="i"><use href="#i-star"/></svg>¿Las reseñas son reales?</div>
+    <div class="x" data-show="1.5" data-hide="2.5" style="left:140px;top:330px;width:980px">
+      <h2 class="h-l" data-in="lines">¿A qué taller lo lleva?</h2>
+      <p class="lead" style="margin-top:40px" data-in="lines" data-d="0.35">Hay decenas cerca. Todos dicen ser buenos. Todos tienen 4,5 estrellas.</p>
     </div>
-    <div class="x frag" data-frag="8.5" style="left:140px;top:850px;width:1640px">
-      <p class="h-s">El mecánico sabe más que el cliente. <span class="dim">Y el cliente no tiene con qué comparar.</span></p>
+    <div class="x" data-show="2.5" data-hide="3.5" style="left:140px;top:330px;width:980px">
+      <h2 class="h-l" data-in="lines">Elige uno casi al azar.</h2>
+      <p class="lead" style="margin-top:40px" data-in="lines" data-d="0.35">Fue a cambiar el aceite. Salió con un presupuesto de <span style="color:#fff;font-weight:600">$480.000</span>.</p>
     </div>
-  </section>
+    <div class="x" data-show="3.5" data-hide="4.5" style="left:140px;top:330px;width:980px">
+      <h2 class="h-xl" data-in="lines">¿Era necesario?</h2>
+      <p class="h-s or" style="margin-top:44px" data-in="lines" data-d="0.4">Lucas no tiene forma de saberlo.</p>
+    </div>
+    <i data-show="3.5" data-hide="4.5" data-hook="focus"></i>
 
-  <!-- ===== 3 Proceso ===== -->
-  <section id="s-proceso" class="scene clip" data-composition-id="proceso" data-start="12" data-duration="6" data-label="Proceso" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:170px;width:960px">
-      <h2 class="h-l" data-in="lines">Hoy, elegir taller lleva días.</h2>
-      <p class="lead" style="margin-top:40px" data-in="lines" data-d="0.4">Buscar uno por uno. Escribirle a cada uno. Explicar el mismo ruido tres veces. Y comparar presupuestos que no se parecen en nada.</p>
-    </div>
-    <div class="x frag" data-frag="13.5" style="left:140px;top:720px;width:900px">
-      <div class="glass" style="padding:34px 40px;display:flex;gap:26px;align-items:center">
-        <svg class="i" style="width:52px;height:52px;color:var(--orange)"><use href="#i-store"/></svg>
-        <p style="font-size:34px;line-height:1.35">Del otro lado, los talleres dependen del boca en boca para conseguir clientes nuevos.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 4 Contexto ===== -->
-  <section id="s-contexto" class="scene clip" data-composition-id="contexto" data-start="18" data-duration="6" data-label="Contexto" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:140px;width:1640px">
-      <h2 class="h-l" data-in="lines">La necesidad ya existe.</h2>
-    </div>
-    <div class="x col3" style="left:140px;top:360px;width:1640px">
-      <div class="glass panel" data-in="rise" data-d="0.3"><h3>El cliente no sabe lo que sabe el mecánico</h3><p>Describe síntomas. La causa la conoce el profesional.</p></div>
-      <div class="glass panel" data-in="rise" data-d="0.45"><h3>Las reseñas no se pueden verificar</h3><p>Cuesta saber si una opinión viene de un trabajo real.</p></div>
-      <div class="glass panel" data-in="rise" data-d="0.6"><div class="bignum"><span data-count="24240" data-fmt="ley">24.240</span></div><p>La Ley de Defensa del Consumidor ya pide presupuestos claros y documentados.</p></div>
-    </div>
-  </section>
-
-  <!-- ===== 5 Usuarios ===== -->
-  <section id="s-usuarios" class="scene clip" data-composition-id="usuarios" data-start="24" data-duration="6" data-label="Usuarios" data-width="1920" data-height="1080" data-layout-allow-overflow>
-    <div class="x" style="left:140px;top:110px;width:1640px">
-      <h2 class="h-m" data-in="lines">Dos usuarios. Una misma plataforma.</h2>
-    </div>
-    <div class="x" style="left:140px;top:300px;width:780px" data-in="rise" data-d="0.3">
-      <h3 class="h-s">Conductores</h3>
-      <p class="body" style="margin-top:12px">Encuentran un taller cerca, comparan precios claros y reservan sin perder tiempo. Gratis.</p>
-    </div>
-    <div class="x" style="left:1000px;top:300px;width:780px" data-in="rise" data-d="0.45">
-      <h3 class="h-s">Talleres</h3>
-      <p class="body" style="margin-top:12px">Reciben consultas de clientes nuevos, envían presupuestos y construyen su reputación.</p>
-    </div>
-    <!-- teléfono del conductor -->
-    <div class="phone" id="ph-u" style="left:330px;top:560px" data-in="up" data-d="0.5">
+    <!-- iPhone de Lucas -->
+    <div class="phone" data-show="0.5" data-hide="4.5" data-in="up" data-out="drop" style="left:1240px;top:170px">
       <div class="scr"><div class="island"></div>
-        <div class="app">
+        <!-- Recordatorio -->
+        <div class="app lock" data-show="0.5" data-hide="1.5" data-in="none" data-out="screen">
+          <div class="sb" style="color:#fff"><b>9:41</b><span><i></i></span></div>
+          <div class="dt">Sábado</div>
+          <div class="tm">9:41</div>
+          <div class="notif row" data-in="notif" data-d="0.9" style="align-items:flex-start">
+            <div class="ic"><svg class="i"><use href="#i-bell"/></svg></div>
+            <div style="flex:1"><div class="h"><span>RECORDATORIO</span><span>ahora</span></div><b>Service del auto</b><p>Cambio de aceite y filtros · 10.000 km</p></div>
+          </div>
+        </div>
+        <!-- Búsqueda -->
+        <div class="app" data-show="1.5" data-hide="2.5" data-in="screen" data-out="screen">
+          <div class="map">
+            <svg class="streets" viewBox="0 0 372 400" preserveAspectRatio="none"><g stroke="#fff" stroke-linecap="round"><path d="M-10 150 L390 110" stroke-width="16"/><path d="M120 -10 L160 440" stroke-width="12"/><path d="M-10 300 L390 270" stroke-width="10"/><path d="M280 -10 L300 440" stroke-width="10"/><path d="M-10 60 L390 40" stroke-width="6"/><path d="M40 -10 L60 440" stroke-width="6"/><path d="M-10 220 L390 200" stroke-width="5"/></g></svg>
+            <span class="mpin" data-in="pin" data-d="0.7" style="left:70px;top:170px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
+            <span class="mpin" data-in="pin" data-d="0.75" style="left:150px;top:140px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
+            <span class="mpin" data-in="pin" data-d="0.8" style="left:230px;top:180px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
+            <span class="mpin" data-in="pin" data-d="0.85" style="left:300px;top:150px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
+            <span class="mpin" data-in="pin" data-d="0.9" style="left:110px;top:250px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
+            <span class="mpin" data-in="pin" data-d="0.95" style="left:190px;top:280px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
+            <span class="mpin" data-in="pin" data-d="1.0" style="left:270px;top:250px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
+            <span class="mpin" data-in="pin" data-d="1.05" style="left:330px;top:300px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
+            <span class="mpin" data-in="pin" data-d="1.1" style="left:50px;top:320px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
+            <span class="mpin" data-in="pin" data-d="1.15" style="left:240px;top:330px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
+          </div>
           <div class="sb"><b>9:41</b><span><i></i></span></div>
-          <div class="top">
-            <div class="sub">Tu auto</div>
-            <h4>Volkswagen Gol 2015</h4>
-            <div class="card-a" style="margin-top:16px">
-              <div class="row"><svg class="i" style="width:22px;height:22px;color:var(--orange)"><use href="#i-wrench"/></svg><b style="font-size:16px">Próximo service en 1.200 km</b></div>
-            </div>
-            <div class="card-a" style="margin-top:10px">
-              <div class="row"><div class="av" style="background:#FFE6DA;color:var(--orange)">FS</div><div style="flex:1"><b style="font-size:16px">Frenos Sur</b><div class="sub">Turno confirmado · jueves 10:00</div></div></div>
-            </div>
+          <div class="search g-ui"><svg class="i" style="width:20px;height:20px;color:var(--app-sub)"><use href="#i-search"/></svg>taller mecánico cerca</div>
+          <div class="sheet">
+            <div style="width:40px;height:5px;border-radius:3px;background:#CBD3E1;margin:0 auto 10px"></div>
+            <b style="font-size:19px">38 resultados</b>
+            <div class="res" data-in="rise" data-d="1.0"><div class="av">TA</div><div style="flex:1"><b>Taller Avenida</b><small>a 600 m</small></div><span class="stars">★ 4,6</span></div>
+            <div class="res" data-in="rise" data-d="1.1"><div class="av">MG</div><div style="flex:1"><b>Mecánica Gómez</b><small>a 900 m</small></div><span class="stars">★ 4,5</span></div>
+            <div class="res" data-in="rise" data-d="1.2"><div class="av">TS</div><div style="flex:1"><b>Taller del Sur</b><small>a 1,1 km</small></div><span class="stars">★ 4,7</span></div>
+            <div class="res" data-in="rise" data-d="1.3"><div class="av">LC</div><div style="flex:1"><b>Lubricentro Centro</b><small>a 1,4 km</small></div><span class="stars">★ 4,5</span></div>
+          </div>
+        </div>
+        <!-- Chat con el taller -->
+        <div class="app" data-show="2.5" data-hide="4.5" data-in="screen" data-out="screen">
+          <div class="chat-h"><svg class="i"><use href="#i-chevron-left"/></svg><div class="av">TA</div><div><b>Taller Avenida</b><small>en línea</small></div></div>
+          <div class="sb"><b>9:41</b><span><i></i></span></div>
+          <div class="msgs">
+            <div class="me" data-in="msg" data-d="0.8">Hola, quiero hacer cambio de aceite y filtros. ¿Lo llevo hoy?</div>
+            <div class="th" data-in="msg" data-d="1.2">Sí, traelo.</div>
+            <div class="tsep" data-in="msg" data-d="1.6">13:40</div>
+            <div class="th" data-in="msg" data-d="1.9">Ya que estamos lo revisé: hay que cambiar pastillas, discos y amortiguadores.</div>
+            <div class="th hot" data-in="msg" data-d="2.6">Todo te queda en<br><b>$480.000</b></div>
+            <div class="me" data-in="msg" data-d="3.3">¿Es urgente?</div>
+            <div class="th" data-in="msg" data-d="3.9">Si no lo hacés, es peligroso.</div>
           </div>
         </div>
       </div>
     </div>
-    <!-- tablet del taller -->
-    <div class="tablet" style="left:1010px;top:560px" data-in="up" data-d="0.65">
-      <div class="scr">
-        <div style="position:absolute;left:30px;right:30px;top:26px;display:flex;justify-content:space-between;align-items:center">
-          <div class="row"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" style="width:34px;height:34px" alt="" /><b style="font-size:20px">Panel del taller</b></div>
-          <span style="font-size:15px;color:var(--app-sub)">Frenos Sur, Bernal</span>
-        </div>
-        <div style="position:absolute;left:30px;right:30px;top:86px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
-          <div class="card-a"><div class="sub">Solicitudes</div><b style="font-size:32px" class="tcount" data-to="18">18</b></div>
-          <div class="card-a"><div class="sub">Presupuestos</div><b style="font-size:32px" class="tcount" data-to="12">12</b></div>
-          <div class="card-a"><div class="sub">Turnos</div><b style="font-size:32px" class="tcount" data-to="7">7</b></div>
-          <div class="card-a"><div class="sub">Trabajos</div><b style="font-size:32px;color:var(--orange)" class="tcount" data-to="5">5</b></div>
-        </div>
-        <div style="position:absolute;left:30px;right:30px;top:196px">
-          <div class="sub" style="margin-bottom:8px">Nuevas solicitudes</div>
-          <div class="card-a req" style="display:flex;align-items:center;gap:14px"><div style="flex:1"><b style="font-size:17px">Ruido en tren delantero</b><div class="sub">VW Gol 2015 · a 1,2 km</div></div><span class="btn" style="padding:10px 16px;font-size:15px">Enviar presupuesto</span></div>
-          <div class="card-a req" style="display:flex;align-items:center;gap:14px;margin-top:8px"><div style="flex:1"><b style="font-size:17px">Cambio de pastillas</b><div class="sub">Fiat Cronos 2020 · a 2,4 km</div></div><span class="btn" style="padding:10px 16px;font-size:15px">Enviar presupuesto</span></div>
-        </div>
+
+    <!-- Contexto macro -->
+    <div class="x" data-show="4.5" data-hide="5.5" style="left:140px;top:230px;width:1640px">
+      <h2 class="h-m" data-in="lines">Y Lucas no es la excepción.</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:60px;margin-top:90px">
+        <div class="stat" data-in="rise" data-d="0.3"><div class="bignum">15,8 M</div><p>vehículos circulan en Argentina</p></div>
+        <div class="stat" data-in="rise" data-d="0.45"><div class="bignum">14,8</div><p>años de antigüedad promedio. Más años, más visitas al taller.</p></div>
+        <div class="stat" data-in="rise" data-d="0.6"><div class="bignum" style="color:#fff">+630 mil</div><p>personas viven en Quilmes</p></div>
+      </div>
+      <p class="src" style="margin-top:110px" data-in="fade" data-d="1.0">Fuentes: AFAC, parque automotor 2025 · INDEC, Censo 2022</p>
+    </div>
+
+    <!-- POV -->
+    <div class="x" data-show="5.5" style="left:140px;top:200px;width:1640px">
+      <p class="lead" data-in="lines">Creíamos que el problema era encontrar un taller barato.</p>
+      <h2 class="h-l" style="margin-top:22px" data-in="lines" data-d="0.4">En el campo descubrimos que el conductor <span class="or">no puede verificar nada.</span></h2>
+      <div class="card3" style="margin-top:70px">
+        <div class="glass" data-in="rise" data-d="0.9"><svg class="i"><use href="#i-stethoscope"/></svg><h3>El diagnóstico</h3><p>¿La falla es real?</p></div>
+        <div class="glass" data-in="rise" data-d="1.05"><svg class="i"><use href="#i-scale"/></svg><h3>El precio</h3><p>¿Es justo?</p></div>
+        <div class="glass" data-in="rise" data-d="1.2"><svg class="i"><use href="#i-star"/></svg><h3>La reputación</h3><p>¿Las reseñas son reales?</p></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 6 Solución ===== -->
-  <section id="s-solucion" class="scene clip" data-composition-id="solucion" data-start="30" data-duration="6" data-label="La solución" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:250px;width:1000px">
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" style="width:110px;height:110px" alt="" data-in="pop" />
-      <h2 class="h-xl" style="margin-top:40px" data-in="lines" data-d="0.2">Presentamos llave.</h2>
-      <p class="lead" style="margin-top:34px;max-width:900px" data-in="lines" data-d="0.5">Encontrá un taller de confianza, compará presupuestos y reservá. Todo en un solo lugar.</p>
-      <div class="glass seg" style="margin-top:56px" data-in="rise" data-d="0.9"><i class="knob"></i><span>Buscar</span><span>Comparar</span><span>Chatear</span><span>Reservar</span><span>Opinar</span></div>
+  <!-- ===================== SLIDE 2 · Trabajo de campo (Integrante 2) ===================== -->
+  <section id="s-campo" class="scene clip" data-composition-id="campo" data-start="12" data-duration="12" data-label="2 · Trabajo de campo" data-width="1920" data-height="1080">
+    <div class="hdr" data-in="fade"><div class="brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" alt="" />llave</div><div class="where"><span class="num"><b>2</b> / 4</span><span>Trabajo de campo</span><span class="who">Integrante 2</span></div></div>
+    <div class="x" style="left:140px;top:170px;width:1640px">
+      <h2 class="h-m" data-in="lines">Salimos a preguntar.</h2>
+      <div class="row" style="gap:24px;margin-top:22px" data-in="fade" data-d="0.4"><span class="lead" style="font-size:36px"><span data-k="encuesta.respuestas"></span> conductores encuestados · Quilmes y alrededores</span><span class="pill">Datos de ejemplo</span></div>
     </div>
-  </section>
 
-  <!-- ===== 7 Híbrido ===== -->
-  <section id="s-hibrido" class="scene clip" data-composition-id="hibrido" data-start="36" data-duration="6" data-label="Cómo funciona" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:110px;width:1640px">
-      <h2 class="h-m" data-in="lines">Dos formas de encontrar tu taller.</h2>
-      <p class="lead frag" data-frag="38.5" style="margin-top:14px">Las dos comparten chat, turnos y reputación verificada.</p>
-    </div>
-    <div class="x" style="left:700px;top:470px;width:380px" data-in="rise" data-d="0.4">
-      <h3 class="h-s">Buscás vos</h3>
-      <p class="body" style="margin-top:12px">Mapa, filtros por especialidad y precios orientativos. Turno en el momento.</p>
-    </div>
-    <div class="x frag" data-frag="37.5" style="left:1110px;top:300px;width:720px;height:760px">
-      <div class="phone" id="ph-b" style="left:0;top:40px;transform:scale(0.78);transform-origin:0 0">
-        <div class="scr"><div class="island"></div>
-          <div class="app">
-            <div class="sb"><b>9:41</b><span><i></i></span></div>
-            <div class="top">
-              <div class="sub">Tu solicitud</div>
-              <h4 style="font-size:24px">Ruido en tren delantero</h4>
-              <div class="sub" style="margin-top:2px">VW Gol 2015 · enviada a 5 talleres</div>
-              <div class="sub" style="margin:18px 0 8px;font-weight:600;color:var(--app-ink)">Presupuestos recibidos</div>
-              <div class="card-a q"><div class="row" style="justify-content:space-between"><b style="font-size:16px">Frenos Sur</b><b style="font-size:18px">$28.000</b></div><div class="row" style="justify-content:space-between;margin-top:4px"><span class="stars">★ 4.8</span><span class="sub">Diagnóstico · hoy</span></div></div>
-              <div class="card-a q" style="margin-top:8px"><div class="row" style="justify-content:space-between"><b style="font-size:16px">Mecánica Bernal</b><b style="font-size:18px">$22.000</b></div><div class="row" style="justify-content:space-between;margin-top:4px"><span class="stars">★ 4.5</span><span class="sub">Diagnóstico · mañana</span></div></div>
-              <div class="card-a q" style="margin-top:8px"><div class="row" style="justify-content:space-between"><b style="font-size:16px">Taller Integral</b><b style="font-size:18px">$25.000</b></div><div class="row" style="justify-content:space-between;margin-top:4px"><span class="stars">★ 4.7</span><span class="sub">Diagnóstico · jueves</span></div></div>
-              <div class="btn" style="margin-top:16px">Comparar presupuestos</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="x" style="left:340px;top:170px;width:380px">
-        <h3 class="h-s">Te responden ellos</h3>
-        <p class="body" style="margin-top:12px">Contás el problema una vez y recibís presupuestos para comparar.</p>
+    <div class="x" data-show="12.5" data-hide="13.5" style="left:140px;top:410px;width:1640px;display:flex;align-items:center;gap:80px">
+      <div class="bignum" style="font-size:330px"><span data-in="count" data-k="encuesta.dificil"></span>%</div>
+      <div style="flex:1">
+        <p class="h-s" data-in="lines" data-d="0.3">dice que es difícil encontrar un taller de confianza.</p>
+        <p class="body" style="margin-top:28px;font-size:38px" data-in="fade" data-d="0.9">Y el <b style="color:#fff"><span data-k="encuesta.malaExperiencia"></span>%</b> ya tuvo una mala experiencia con un taller.</p>
       </div>
     </div>
+
+    <div class="x bars" data-show="13.5" data-hide="14.5" style="left:140px;top:400px;width:1640px">
+      <p class="h-s" style="font-size:44px;margin-bottom:20px" data-in="fade">Lo que más les preocupa al elegir</p>
+      <div id="bars"></div>
+    </div>
+
+    <div class="x" data-show="14.5" style="left:140px;top:400px;width:1640px;display:grid;grid-template-columns:1fr 1fr;gap:36px" id="citas"></div>
   </section>
 
-  <!-- ===== 8 Recorrido ===== -->
-  <section id="s-recorrido" class="scene clip" data-composition-id="recorrido" data-start="42" data-duration="6" data-label="Un caso" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:250px;width:820px">
-      <h2 class="h-m" data-in="lines">Laura escucha un ruido en el tren delantero.</h2>
-      <p class="lead" style="margin-top:34px" data-in="lines" data-d="0.4">Así lo resuelve desde llave, sin hacer una sola llamada.</p>
+  <!-- ===================== SLIDE 3 · El filtro experto (Integrante 3) ===================== -->
+  <section id="s-expertos" class="scene clip" data-composition-id="expertos" data-start="24" data-duration="12" data-label="3 · El filtro experto" data-width="1920" data-height="1080">
+    <div class="hdr" data-in="fade"><div class="brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" alt="" />llave</div><div class="where"><span class="num"><b>3</b> / 4</span><span>El filtro experto</span><span class="who">Integrante 3</span></div></div>
+    <div class="x" style="left:140px;top:170px;width:1640px">
+      <h2 class="h-m" data-in="lines">Hablamos con 5 talleres.</h2>
+      <div class="row" style="gap:24px;margin-top:22px" data-in="fade" data-d="0.4"><span class="lead" style="font-size:36px">Primero sus problemas. La idea, recién al final.</span><span class="pill">Resultados de ejemplo</span></div>
     </div>
-    <div class="x glass track" style="left:1060px;top:210px" data-in="rise" data-d="0.3">
-      <div class="rail"><i></i></div>
-      <div class="step"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span class="lbl">Carga su auto y el problema</span><span class="tm">9:12</span></div>
-      <div class="step"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span class="lbl">Pide presupuestos</span><span class="tm">9:14</span></div>
-      <div class="step"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span class="lbl">Compara 3 propuestas</span><span class="tm">11:40</span></div>
-      <div class="step"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span class="lbl">Chatea y reserva el turno</span><span class="tm">11:52</span></div>
-      <div class="step"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span class="lbl">Servicio realizado</span><span class="tm">Jue</span></div>
-      <div class="step"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span class="lbl">Deja una reseña verificada</span><span class="tm">Jue</span></div>
-    </div>
-  </section>
 
-  <!-- ===== 9 Reseñas ===== -->
-  <section id="s-resenas" class="scene clip" data-composition-id="resenas" data-start="48" data-duration="6" data-label="Reseñas verificadas" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:200px;width:960px">
-      <h2 class="h-l" data-in="lines">Solo opina quien hizo el trabajo.</h2>
-      <p class="lead" style="margin-top:34px" data-in="lines" data-d="0.4">La reseña se habilita cuando el taller y el conductor confirman el servicio.</p>
+    <div class="x prof" data-show="24.5" data-hide="25.5" style="left:140px;top:480px;width:1640px">
+      <div data-in="rise" data-d="0.2"><div class="c glass"><svg class="i"><use href="#i-wrench"/></svg></div><p>Mecánica general</p></div>
+      <div data-in="rise" data-d="0.3"><div class="c glass"><svg class="i"><use href="#i-disc"/></svg></div><p>Frenos y suspensión</p></div>
+      <div data-in="rise" data-d="0.4"><div class="c glass"><svg class="i"><use href="#i-store"/></svg></div><p>Taller chico</p></div>
+      <div data-in="rise" data-d="0.5"><div class="c glass"><svg class="i"><use href="#i-building-2"/></svg></div><p>Taller grande</p></div>
+      <div data-in="rise" data-d="0.6"><div class="c glass"><svg class="i"><use href="#i-phone"/></svg></div><p>Recepción</p></div>
     </div>
-    <div class="x frag" data-frag="49.5" style="left:140px;top:700px;width:960px;display:flex;flex-direction:column;gap:18px;font-size:36px">
-      <div class="row" style="gap:20px"><svg class="i" style="width:40px;height:40px;color:var(--orange)"><use href="#i-check"/></svg>Opinión atada a un trabajo real</div>
-      <div class="row" style="gap:20px"><svg class="i" style="width:40px;height:40px;color:var(--orange)"><use href="#i-check"/></svg>Identidad del taller verificada</div>
-      <div class="row dim" style="gap:20px"><svg class="i" style="width:40px;height:40px"><use href="#i-x"/></svg>No certifica la calidad técnica</div>
-    </div>
-  </section>
 
-  <!-- ===== 10 Negocio ===== -->
-  <section id="s-negocio" class="scene clip" data-composition-id="negocio" data-start="54" data-duration="6" data-label="Modelo de negocio" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:120px;width:1640px">
-      <h2 class="h-m" data-in="lines">Gratis para conductores. Una cuota fija para talleres.</h2>
-      <span class="pill" style="margin-top:26px" data-in="fade" data-d="0.4">Precios en validación</span>
+    <div class="x list ok" data-show="25.5" data-hide="27.5" style="left:140px;top:420px;width:790px">
+      <h3 data-in="fade"><span class="ic"><svg class="i"><use href="#i-check"/></svg></span>Lo que validaron</h3>
+      <ul id="validaron"></ul>
     </div>
-    <div class="x col3" style="left:140px;top:420px;width:1640px">
-      <div class="glass panel" data-in="rise" data-d="0.3"><p>Conductores</p><div class="price">Gratis</div><p>Buscar, comparar, reservar y opinar.</p></div>
-      <div class="glass panel" data-in="rise" data-d="0.45" style="border-color:rgba(255,106,43,0.6)"><p>Talleres</p><div class="price">$<span data-count="35000">35.000</span><small> /mes</small></div><p>30 días de prueba gratis. Sin comisión por trabajo.</p></div>
-      <div class="glass panel" data-in="rise" data-d="0.6"><p>Publicidad opcional</p><div class="price">$<span data-count="15000">15.000</span><small> /mes</small></div><p>Perfil destacado, siempre marcado como patrocinado.</p></div>
+    <div class="x list no" data-show="26.5" data-hide="27.5" style="left:990px;top:420px;width:790px">
+      <h3 data-in="fade"><span class="ic"><svg class="i"><use href="#i-x"/></svg></span>Lo que no funcionaría</h3>
+      <ul id="nofunciona"></ul>
     </div>
-    <div class="x frag" data-frag="55.5" style="left:140px;top:860px;width:1640px;display:flex;align-items:baseline;gap:28px">
-      <span style="font-size:40px" class="dim">Con 50 talleres y 10 anunciantes:</span>
-      <span style="font-size:72px;font-weight:700;letter-spacing:-0.04em">$<span class="tot">1.900.000</span></span>
-      <span style="font-size:32px" class="dim">por mes, escenario ilustrativo</span>
+
+    <div class="x glass quote" data-show="27.5" data-in="rise" style="left:140px;top:430px;width:1640px">
+      <span class="qm">“</span>
+      <p style="font-size:60px" data-k="entrevistas.cita"></p>
+      <small data-k="entrevistas.citaAutor"></small>
     </div>
   </section>
 
-  <!-- ===== 11 Competencia ===== -->
-  <section id="s-competencia" class="scene clip" data-composition-id="competencia" data-start="60" data-duration="6" data-label="Competencia" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:120px;width:1640px">
-      <h2 class="h-m" data-in="lines">No somos los únicos. <span class="dim">Y lo sabemos.</span></h2>
+  <!-- ===================== SLIDE 4 · Mirada STEM y siguientes pasos (Integrante 4) ===================== -->
+  <section id="s-stem" class="scene clip" data-composition-id="stem" data-start="36" data-duration="12" data-label="4 · Mirada STEM" data-width="1920" data-height="1080">
+    <div class="hdr" data-in="fade"><div class="brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" alt="" />llave</div><div class="where"><span class="num"><b>4</b> / 4</span><span>Mirada STEM</span><span class="who">Integrante 4</span></div></div>
+
+    <div class="x" data-show="36.5" data-hide="37.5" style="left:140px;top:300px;width:1640px">
+      <p class="lead" data-in="fade">Nuestro aporte</p>
+      <h2 class="h-xl" style="margin-top:30px" data-in="lines" data-d="0.2">El problema no es encontrar un taller.</h2>
+      <h2 class="h-xl or" style="margin-top:20px" data-in="lines" data-d="0.7">Es poder verificarlo.</h2>
     </div>
-    <div class="x col3" style="left:140px;top:320px;width:1640px">
-      <div class="glass panel" data-in="rise" data-d="0.3"><p>Para encontrar talleres</p><h3>Google Maps</h3><h3>Bosch Car Service</h3></div>
-      <div class="glass panel" data-in="rise" data-d="0.45"><p>Para gestionar el taller</p><h3>TallerOS</h3><h3>mecapp</h3></div>
-      <div class="glass panel" data-in="rise" data-d="0.6"><p>Los más parecidos</p><h3>Rutiox <span class="dim" style="font-size:30px">Argentina</span></h3><h3>ClickMechanic <span class="dim" style="font-size:30px">UK</span></h3></div>
+
+    <div class="x" data-show="37.5" data-hide="38.5" style="left:0;top:0;width:1920px;height:1080px">
+      <p class="h-s x" style="left:140px;top:170px;width:1640px" data-in="lines">Un problema de información se resuelve con ingeniería.</p>
+      <svg class="x" width="1920" height="1080" style="left:0;top:0" fill="none" stroke="rgba(255,106,43,0.7)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round">
+        <path data-in="draw" data-d="0.4" d="M700 430 L840 560" />
+        <path data-in="draw" data-d="0.4" d="M1220 430 L1080 560" />
+        <path data-in="draw" data-d="0.4" d="M700 850 L840 720" />
+        <path data-in="draw" data-d="0.4" d="M1220 850 L1080 720" />
+      </svg>
+      <div class="core glass" data-in="pop" data-d="0.2" style="left:810px;top:490px"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" alt="" /><p>Confianza<br>verificable</p></div>
+      <div class="node glass" data-in="rise" data-d="0.6" style="left:140px;top:320px"><span class="ic"><svg class="i"><use href="#i-database"/></svg></span><div><h3>Ciencia de datos</h3><p>Precios de referencia a partir de presupuestos reales</p></div></div>
+      <div class="node glass" data-in="rise" data-d="0.75" style="left:1220px;top:320px"><span class="ic"><svg class="i"><use href="#i-brain"/></svg></span><div><h3>Inteligencia artificial</h3><p>De los síntomas a un prediagnóstico orientativo</p></div></div>
+      <div class="node glass" data-in="rise" data-d="0.9" style="left:140px;top:740px"><span class="ic"><svg class="i"><use href="#i-code-xml"/></svg></span><div><h3>Ingeniería de software</h3><p>Reseñas que solo existen si hubo un servicio confirmado</p></div></div>
+      <div class="node glass" data-in="rise" data-d="1.05" style="left:1220px;top:740px"><span class="ic"><svg class="i"><use href="#i-calendar-clock"/></svg></span><div><h3>Investigación operativa</h3><p>Turnos según la capacidad real de cada taller</p></div></div>
     </div>
-    <div class="x frag" data-frag="61.5" style="left:140px;top:760px;width:1640px">
-      <div class="merge" style="position:relative;height:150px">
-        <span class="glass mc" style="position:absolute;left:0;top:30px;padding:20px 30px;border-radius:999px;font-size:32px">Presupuestos comparables</span>
-        <span class="glass mc" style="position:absolute;left:470px;top:30px;padding:20px 30px;border-radius:999px;font-size:32px">Reseñas verificadas</span>
-        <span class="glass mc" style="position:absolute;left:860px;top:30px;padding:20px 30px;border-radius:999px;font-size:32px">Clientes medibles</span>
-        <span class="glass mc" style="position:absolute;left:1220px;top:30px;padding:20px 30px;border-radius:999px;font-size:32px">Foco en Quilmes</span>
-        <div class="one" style="position:absolute;left:50%;top:14px;width:760px;margin-left:-380px;display:flex;align-items:center;justify-content:center;gap:22px;padding:22px 40px;border-radius:999px;background:var(--orange);font-size:44px;font-weight:600;letter-spacing:-0.02em;opacity:0;box-shadow:0 20px 60px rgba(255,106,43,0.4)">
-          <svg viewBox="0 0 120 120" style="width:58px;height:58px"><g fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round"><path d="M42 30v60"/><circle cx="74" cy="42" r="12"/><path d="M74 54v36M74 70h9M74 81h7"/></g></svg>llave junta todo en un lugar</div>
+
+    <div class="x" data-show="38.5" data-hide="39.5" style="left:140px;top:200px;width:1640px">
+      <h2 class="h-m" data-in="lines">Próximos pasos</h2>
+      <div class="steps" style="margin-top:110px">
+        <svg class="x" width="1640" height="44" style="left:0;top:0;overflow:visible"><path d="M22 22H1300" stroke="rgba(255,255,255,0.18)" stroke-width="3"/><path data-in="draw" data-d="0.4" d="M22 22H180" stroke="#FF6A2B" stroke-width="3"/></svg>
+        <div class="s on" data-in="rise" data-d="0.3"><i></i><small>AHORA</small><p>Encuestas y entrevistas</p></div>
+        <div class="s" data-in="rise" data-d="0.45"><i></i><small>DESPUÉS</small><p>Prototipo con conductores y talleres</p></div>
+        <div class="s" data-in="rise" data-d="0.6"><i></i><small>LUEGO</small><p>Piloto en Quilmes</p></div>
       </div>
+      <p class="lead" style="margin-top:110px;max-width:1400px" data-in="lines" data-d="0.9">Vamos a medir si la confianza se convierte en turnos y trabajos reales.</p>
+    </div>
+
+    <div class="x" data-show="39.5" style="left:0;right:0;top:220px;display:flex;flex-direction:column;align-items:center;text-align:center">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" alt="llave" style="width:150px;height:150px;filter:drop-shadow(0 30px 60px rgba(255,106,43,0.35))" data-in="pop" />
+      <div class="h-xl" style="font-size:140px;margin-top:50px;display:flex;gap:36px"><span data-in="rise" data-d="0.3">Compará.</span><span data-in="rise" data-d="0.5">Elegí.</span><span class="or" data-in="rise" data-d="0.7">Confiá.</span></div>
+      <p class="h-s" style="margin-top:60px;font-size:48px" data-in="fade" data-d="1.1">Gracias. ¿Preguntas?</p>
+      <div class="row" style="gap:48px;margin-top:70px;font-size:28px;color:var(--dim)" data-in="fade" data-d="1.4"><span>Integrante 1</span><span>Integrante 2</span><span>Integrante 3</span><span>Integrante 4</span></div>
     </div>
   </section>
-
-  <!-- ===== 12 Validación ===== -->
-  <section id="s-validacion" class="scene clip" data-composition-id="validacion" data-start="66" data-duration="6" data-label="Validación" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:120px;width:1640px">
-      <h2 class="h-m" data-in="lines">Antes de construir, preguntamos.</h2>
-      <span class="pill" style="margin-top:26px" data-in="fade" data-d="0.4">Cantidad de ejemplo</span>
-    </div>
-    <div class="x" style="left:140px;top:400px;width:1640px;display:grid;grid-template-columns:1fr 1fr;gap:80px">
-      <div data-in="rise" data-d="0.3"><div style="font-size:220px;font-weight:700;letter-spacing:-0.06em;line-height:0.9"><span class="enc-n" data-count="80">80</span></div><p class="h-s" style="margin-top:20px">encuestas a conductores</p><p class="body">Sobre todo de Quilmes y alrededores.</p></div>
-      <div data-in="rise" data-d="0.45"><div style="font-size:220px;font-weight:700;letter-spacing:-0.06em;line-height:0.9;color:var(--orange)"><span data-count="5">5</span></div><p class="h-s" style="margin-top:20px">entrevistas a talleres</p><p class="body">Primero sus problemas. La idea, al final.</p></div>
-    </div>
-    <p class="x lead" style="left:140px;top:900px;width:1640px" data-in="fade" data-d="1.2">Todavía no está validado. Importa lo que la gente hace, no solo lo que dice.</p>
-  </section>
-
-  <!-- ===== 13 Encuesta ===== -->
-  <section id="s-encuesta" class="scene clip" data-composition-id="encuesta" data-start="72" data-duration="6" data-label="Encuesta" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:110px;width:1640px">
-      <h2 class="h-m" data-in="lines">Elegir taller genera dudas.</h2>
-      <span class="pill" style="margin-top:24px" data-in="fade" data-d="0.4">Datos de ejemplo</span>
-    </div>
-    <div class="x" style="left:140px;top:320px;width:1640px;display:grid;grid-template-columns:repeat(3,1fr);gap:60px">
-      <div data-in="rise" data-d="0.3"><div class="bignum" style="color:#fff"><span data-count-k="dificil">0</span>%</div><p class="body" style="margin-top:14px">dice que es difícil encontrar un taller de confianza</p></div>
-      <div data-in="rise" data-d="0.45"><div class="bignum" style="color:#fff"><span data-count-k="malaExperiencia">0</span>%</div><p class="body" style="margin-top:14px">tuvo una mala experiencia con un taller</p></div>
-      <div data-in="rise" data-d="0.6"><div class="bignum"><span data-count-k="usaria">0</span>%</div><p class="body" style="margin-top:14px">probablemente usaría una plataforma así</p></div>
-    </div>
-    <div class="x bars" style="left:140px;top:620px;width:1640px" data-in="rise" data-d="0.8">
-      <p class="body" style="color:#fff;margin-bottom:6px">Lo que más preocupa al elegir</p>
-      <div id="enc-bars"></div>
-    </div>
-  </section>
-
-  <!-- ===== 14 Entrevistas ===== -->
-  <section id="s-entrevistas" class="scene clip" data-composition-id="entrevistas" data-start="78" data-duration="6" data-label="Entrevistas" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:110px;width:1640px">
-      <h2 class="h-m" data-in="lines">Los talleres quieren clientes. <span class="dim">Y quieren ver resultados.</span></h2>
-      <span class="pill" style="margin-top:24px" data-in="fade" data-d="0.4">Datos de ejemplo</span>
-    </div>
-    <div class="x" style="left:140px;top:400px;width:1640px;display:grid;grid-template-columns:repeat(3,1fr);gap:60px">
-      <div data-in="rise" data-d="0.3"><div class="dots5" data-dots="quierenClientes"></div><div class="h-m"><span data-text="quierenClientes"></span> de 5</div><p class="body">quieren conseguir más clientes</p></div>
-      <div data-in="rise" data-d="0.45"><div class="dots5" data-dots="pruebaGratis"></div><div class="h-m"><span data-text="pruebaGratis"></span> de 5</div><p class="body">aceptarían la prueba de 30 días</p></div>
-      <div data-in="rise" data-d="0.6"><div class="dots5" data-dots="5"></div><div class="h-m" data-text="pago"></div><p class="body">por mes, si ven <span data-text="clientesMes"></span> clientes nuevos</p></div>
-    </div>
-    <div class="x glass" style="left:140px;top:760px;width:1640px;padding:40px 52px" data-in="rise" data-d="0.9">
-      <p class="h-s" style="font-weight:500">“<span data-text="cita"></span>”</p>
-      <p class="body" style="margin-top:10px;font-size:28px" data-text="citaAutor"></p>
-    </div>
-  </section>
-
-  <!-- ===== 15 Pasos ===== -->
-  <section id="s-pasos" class="scene clip" data-composition-id="pasos" data-start="84" data-duration="6" data-label="Próximos pasos" data-width="1920" data-height="1080">
-    <div class="x" style="left:140px;top:110px;width:1640px">
-      <h2 class="h-m" data-in="lines">Lo que sigue: un piloto en Quilmes.</h2>
-    </div>
-    <div class="x" style="left:140px;top:300px;width:1640px;height:200px" data-in="fade" data-d="0.2">
-      <svg width="1640" height="60" style="position:absolute;left:0;top:0;overflow:visible"><path d="M20 30H1620" stroke="rgba(255,255,255,0.18)" stroke-width="3"/><path class="rd" d="M20 30H1620" stroke="#FF6A2B" stroke-width="3"/></svg>
-      <div class="ms" style="position:absolute;left:0;top:0;width:330px"><i class="mdot on"></i><p class="h-s" style="font-size:38px;margin-top:40px">Encuestas y entrevistas</p><p class="body" style="font-size:28px;color:var(--orange-2)">Ahora</p></div>
-      <div class="ms" style="position:absolute;left:400px;top:0;width:300px"><i class="mdot"></i><p class="h-s dim" style="font-size:38px;margin-top:40px">Prototipo</p></div>
-      <div class="ms" style="position:absolute;left:800px;top:0;width:300px"><i class="mdot"></i><p class="h-s dim" style="font-size:38px;margin-top:40px">Versión web</p></div>
-      <div class="ms" style="position:absolute;left:1200px;top:0;width:300px"><i class="mdot"></i><p class="h-s dim" style="font-size:38px;margin-top:40px">Piloto con 15 talleres</p></div>
-    </div>
-    <div class="x frag" data-frag="85.5" style="left:140px;top:590px;width:1640px">
-      <div class="row" style="justify-content:space-between;align-items:center"><p class="h-s" style="font-size:40px">Lo que vamos a medir</p><span class="pill">Metas hipotéticas</span></div>
-      <div class="funnel" style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:26px;align-items:end;height:300px">
-        <div class="fs"><div class="h-s">150</div><div class="fb" style="height:150px"></div><p class="body" style="font-size:26px">conductores</p></div>
-        <div class="fs"><div class="h-s">60</div><div class="fb" style="height:60px"></div><p class="body" style="font-size:26px">solicitudes</p></div>
-        <div class="fs"><div class="h-s">30</div><div class="fb" style="height:30px"></div><p class="body" style="font-size:26px">turnos</p></div>
-        <div class="fs"><div class="h-s">20</div><div class="fb" style="height:20px"></div><p class="body" style="font-size:26px">trabajos</p></div>
-        <div class="fs"><div class="h-s or">4–6</div><div class="fb" style="height:12px;background:var(--orange)"></div><p class="body" style="font-size:26px">talleres que pagan</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 16 Cierre ===== -->
-  <section id="s-cierre" class="scene clip" data-composition-id="cierre" data-start="90" data-duration="6" data-label="Cierre" data-width="1920" data-height="1080">
-    <div class="x" style="left:0;right:0;top:250px;display:flex;flex-direction:column;align-items:center;text-align:center">
-      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" style="width:150px;height:150px;filter:drop-shadow(0 30px 60px rgba(255,106,43,0.35))" alt="llave" data-in="pop" />
-      <div class="h-xl" style="font-size:150px;margin-top:50px;display:flex;gap:36px"><span data-in="rise" data-d="0.4">Compará.</span><span data-in="rise" data-d="0.6">Elegí.</span><span class="or" data-in="rise" data-d="0.8">Confiá.</span></div>
-      <p class="lead" style="margin-top:50px;max-width:1500px" data-in="lines" data-d="1.2">Talleres de confianza para los conductores. Clientes nuevos para los talleres.</p>
-      <p class="h-s" style="margin-top:70px;font-size:44px" data-in="fade" data-d="1.8">Gracias. ¿Preguntas?</p>
-    </div>
-  </section>
-
-  <!-- ===== iPhone que recorre la presentación ===== -->
-  <div class="phone" id="phone" style="visibility:hidden;z-index:20">
-    <div class="scr"><div class="island"></div>
-
-      <!-- Chats (hoy) -->
-      <div class="app" data-screen="chats">
-        <div class="sb"><b>9:41</b><span><i></i></span></div>
-        <div class="top">
-          <h4>Chats</h4>
-          <div style="margin-top:10px">
-            <div class="chat-row cr"><div class="av" style="background:#E7ECF6;color:var(--app-ink)">TA</div><div class="t"><div class="n">Taller Avenida <small>11:02</small></div><div class="m">Traelo y lo vemos</div></div></div>
-            <div class="chat-row cr"><div class="av" style="background:#E7ECF6;color:var(--app-ink)">MG</div><div class="t"><div class="n">Mecánica Gómez <small>10:47</small></div><div class="m">¿Qué auto es? ¿Qué año?</div></div><span class="badge">2</span></div>
-            <div class="chat-row cr"><div class="av" style="background:#E7ECF6;color:var(--app-ink)">TS</div><div class="t"><div class="n">Taller del Sur <small>Ayer</small></div><div class="m">Visto</div></div></div>
-            <div class="chat-row cr"><div class="av" style="background:#E7ECF6;color:var(--app-ink)">EL</div><div class="t"><div class="n">Electricidad López <small>Ayer</small></div><div class="m">Sin presupuesto hasta verlo</div></div></div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:8px;margin-top:22px">
-            <div class="bubble-me cm">Hola, mi auto hace un ruido adelante cuando freno. ¿Cuánto me sale?</div>
-            <div class="bubble-t cm">Depende. Traelo y lo vemos.</div>
-            <div class="bubble-me cm">¿Tenés turno esta semana?</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Inicio de llave -->
-      <div class="app" data-screen="home">
-        <div class="map" style="height:430px">
-          <svg class="streets" viewBox="0 0 372 430" preserveAspectRatio="none"><g stroke="#fff" stroke-linecap="round"><path d="M-10 150 L390 110" stroke-width="16"/><path d="M120 -10 L160 440" stroke-width="12"/><path d="M-10 300 L390 270" stroke-width="10"/><path d="M280 -10 L300 440" stroke-width="10"/><path d="M-10 60 L390 40" stroke-width="6"/><path d="M40 -10 L60 440" stroke-width="6"/></g><path d="M200 330 q40 -20 90 10 l20 60 h-120z" fill="#D6E0EE"/></svg>
-          <span class="me" style="left:180px;top:220px"></span>
-          <span class="mpin hp" style="left:100px;top:180px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
-          <span class="mpin hp" style="left:250px;top:150px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
-          <span class="mpin hp" style="left:300px;top:300px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
-          <span class="mpin hp" style="left:70px;top:330px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
-        </div>
-        <div class="sb"><b>9:41</b><span><i></i></span></div>
-        <div class="g-ui" style="position:absolute;left:18px;right:18px;top:60px;height:56px;border-radius:28px;display:flex;align-items:center;gap:10px;padding:0 18px;font-size:16px;color:var(--app-sub)">
-          <svg class="i" style="width:20px;height:20px"><use href="#i-search"/></svg><span class="typed">Frenos cerca de Bernal</span>
-        </div>
-        <div style="position:absolute;left:0;right:0;top:400px;bottom:0;background:var(--app-bg);border-radius:28px 28px 0 0;padding:18px 18px 0">
-          <div style="width:40px;height:5px;border-radius:3px;background:#CBD3E1;margin:0 auto 12px"></div>
-          <b style="font-size:20px">Talleres cerca tuyo</b>
-          <div class="card-a hc" style="margin-top:10px"><div class="row"><div class="av" style="background:#FFE6DA;color:var(--orange)">FS</div><div style="flex:1"><b style="font-size:16px">Frenos Sur</b><div><span class="ver"><svg class="i" style="width:14px;height:14px"><use href="#i-badge-check"/></svg>23 reseñas verificadas</span></div></div><span class="stars">★ 4.8</span></div></div>
-          <div class="card-a hc" style="margin-top:8px"><div class="row"><div class="av" style="background:#E3EAF8;color:var(--app-ink)">MB</div><div style="flex:1"><b style="font-size:16px">Mecánica Bernal</b><div><span class="ver"><svg class="i" style="width:14px;height:14px"><use href="#i-badge-check"/></svg>17 reseñas verificadas</span></div></div><span class="stars">★ 4.5</span></div></div>
-        </div>
-        <div class="tabbar g-ui"><span class="on"><svg class="i"><use href="#i-house"/></svg>Inicio</span><span><svg class="i"><use href="#i-file-text"/></svg>Pedidos</span><span><svg class="i"><use href="#i-calendar-check"/></svg>Turnos</span><span><svg class="i"><use href="#i-user"/></svg>Perfil</span></div>
-      </div>
-
-      <!-- Modalidad A: mapa y reserva -->
-      <div class="app" data-screen="mapa">
-        <div class="map" style="height:100%">
-          <svg class="streets" viewBox="0 0 372 794" preserveAspectRatio="none"><g stroke="#fff" stroke-linecap="round"><path d="M-10 250 L390 200" stroke-width="18"/><path d="M110 -10 L170 800" stroke-width="14"/><path d="M-10 520 L390 480" stroke-width="12"/><path d="M290 -10 L310 800" stroke-width="12"/><path d="M-10 90 L390 70" stroke-width="7"/><path d="M40 -10 L70 800" stroke-width="7"/><path d="M-10 380 L390 350" stroke-width="7"/></g><path d="M190 560 q50 -30 110 10 l30 90 h-150z" fill="#D6E0EE"/></svg>
-          <span class="me" style="left:170px;top:400px"></span>
-          <span class="mpin" style="left:90px;top:320px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
-          <span class="mpin" style="left:300px;top:450px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
-          <span class="mpin sel" style="left:240px;top:290px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
-        </div>
-        <div class="sb"><b>9:41</b><span><i></i></span></div>
-        <div class="g-ui" style="position:absolute;left:18px;top:60px;height:44px;border-radius:22px;display:flex;align-items:center;gap:8px;padding:0 16px;font-size:14px;font-weight:600">
-          <svg class="i" style="width:18px;height:18px"><use href="#i-sliders-horizontal"/></svg>Frenos · a menos de 3 km · ★ 4.5+
-        </div>
-        <div class="sheet" style="position:absolute;left:12px;right:12px;bottom:12px;background:#fff;border-radius:34px;padding:22px 20px 20px;box-shadow:0 -10px 40px rgba(11,31,77,0.15)">
-          <div class="row" style="justify-content:space-between"><b style="font-size:22px">Frenos Sur</b><span class="stars">★ 4.8</span></div>
-          <div class="sub" style="margin-top:2px">Av. Calchaquí 1450 · a 1,2 km</div>
-          <div style="margin-top:8px"><span class="ver"><svg class="i" style="width:14px;height:14px"><use href="#i-badge-check"/></svg>23 reseñas verificadas</span></div>
-          <div class="row" style="justify-content:space-between;margin-top:14px;padding:12px 14px;border-radius:14px;background:var(--app-bg);font-size:15px"><span>Cambio de pastillas</span><b>desde $45.000</b></div>
-          <div class="btn bk" style="margin-top:14px">Reservar turno</div>
-        </div>
-        <div class="toast g-ui" style="position:absolute;left:30px;right:30px;top:120px;border-radius:22px;padding:14px 16px;display:flex;gap:10px;align-items:center;font-size:15px;font-weight:600;opacity:0">
-          <svg class="i" style="width:22px;height:22px;color:var(--orange)"><use href="#i-calendar-check"/></svg>Turno confirmado: jueves 10:00
-        </div>
-      </div>
-
-      <!-- Reseña verificada -->
-      <div class="app" data-screen="resena">
-        <div class="sb"><b>9:41</b><span><i></i></span></div>
-        <div class="top">
-          <div class="sub">Jueves, Frenos Sur</div>
-          <h4>¿Se hizo el trabajo?</h4>
-          <div class="card-a" style="margin-top:16px;padding:6px 16px">
-            <div class="row cf" style="padding:12px 0;border-bottom:1px solid var(--app-line)"><div class="av" style="background:#FFE6DA;color:var(--orange)">FS</div><div style="flex:1;font-size:16px"><b>Frenos Sur</b><div class="sub">Marcó el servicio como realizado</div></div><span class="ck"><svg class="i" style="width:26px;height:26px;color:var(--orange)"><use href="#i-circle-check"/></svg></span></div>
-            <div class="row cf" style="padding:12px 0"><div class="av" style="background:#E3EAF8;color:var(--app-ink)">LA</div><div style="flex:1;font-size:16px"><b>Vos</b><div class="sub">Confirmaste el servicio</div></div><span class="ck"><svg class="i" style="width:26px;height:26px;color:var(--orange)"><use href="#i-circle-check"/></svg></span></div>
-          </div>
-          <div class="card-a rv" style="margin-top:14px;padding:18px">
-            <div class="row" style="justify-content:space-between"><b style="font-size:17px">Tu reseña</b><span class="ver"><svg class="i" style="width:15px;height:15px"><use href="#i-badge-check"/></svg>Verificada</span></div>
-            <div class="row st5" style="gap:6px;margin-top:10px;color:#D3DAE6;font-size:30px"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-            <p style="font-size:15px;margin-top:10px;line-height:1.4;color:var(--app-ink)">Me explicaron todo antes de arrancar y cobraron lo presupuestado.</p>
-            <div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap;font-size:12px;font-weight:600;color:var(--app-sub)"><span style="padding:5px 10px;border-radius:10px;background:var(--app-bg)">Transparencia</span><span style="padding:5px 10px;border-radius:10px;background:var(--app-bg)">Puntualidad</span><span style="padding:5px 10px;border-radius:10px;background:var(--app-bg)">Atención</span></div>
-          </div>
-          <div class="btn" style="margin-top:16px">Publicar reseña</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
 </div>
 
 <!-- ====================================================================
      DATOS DE LA ENCUESTA Y LAS ENTREVISTAS
      ⚠️ SON DATOS DE EJEMPLO. Reemplazar con los resultados reales.
-     Cuando estén los reales, sacar las etiquetas "Datos de ejemplo" y "Cantidad de ejemplo".
+     Cuando estén los reales, sacar las etiquetas "Datos de ejemplo" y "Resultados de ejemplo".
      ==================================================================== -->
 <script>
   window.__STANDALONE = true;
@@ -696,20 +483,29 @@
       respuestas: 80,
       dificil: 58,          // % "difícil" + "muy difícil"
       malaExperiencia: 63,  // % que respondió "sí"
-      usaria: 72,           // % "muy probable" + "probable"
       preocupaciones: [     // % que marcó cada opción (hasta 3)
         ["No saber si el precio es justo", 71],
         ["Desconfiar del diagnóstico", 64],
         ["No conocer la calidad del trabajo", 52],
         ["No encontrar opiniones confiables", 38]
+      ],
+      citas: [
+        ["Fui a cambiar el aceite y me quisieron cambiar medio auto.", "Conductor, 41 años, Bernal (ejemplo)"],
+        ["Siempre voy al mismo. No porque sea bueno, sino porque no conozco otro.", "Conductora, 29 años, Quilmes (ejemplo)"]
       ]
     },
     entrevistas: {
-      quierenClientes: 4,   // de 5
-      pruebaGratis: 4,      // de 5
-      pago: "$20–40 mil",
-      clientesMes: "4 a 8",
-      cita: "Si me trae cinco trabajos por mes, la suscripción se paga sola.",
+      validaron: [
+        "El cliente nuevo desconfía del presupuesto.",
+        "Casi todo el trabajo llega por boca en boca.",
+        "Responder consultas por WhatsApp les lleva horas."
+      ],
+      noFunciona: [
+        "Un presupuesto exacto sin ver el auto.",
+        "Reseñas sin un trabajo real detrás.",
+        "Pagar antes de ver clientes concretos."
+      ],
+      cita: "El cliente nuevo llega pensando que le vamos a robar. Y la verdad, algunos talleres lo hacen.",
       citaAutor: "Dueño de un taller de mecánica general (ejemplo)"
     }
   };
@@ -722,265 +518,144 @@
   var D = window.DATOS;
   var $ = function (s, el) { return (el || document).querySelector(s); };
   var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
-  var fmt = function (n) { return Math.round(n).toLocaleString("es-AR"); };
+  function get(path) { return path.split(".").reduce(function (o, k) { return o == null ? o : o[k]; }, D); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
-  // ---------- Datos ----------
-  $$("[data-text]").forEach(function (el) { el.textContent = D.entrevistas[el.getAttribute("data-text")]; });
-  $$("[data-dots]").forEach(function (el) {
-    var k = el.getAttribute("data-dots"), n = isNaN(+k) ? D.entrevistas[k] : +k, h = "";
-    for (var i = 0; i < 5; i++) h += '<i data-on="' + (i < n ? 1 : 0) + '"></i>';
-    el.innerHTML = h;
-  });
-  $("#enc-bars").innerHTML = D.encuesta.preocupaciones.map(function (p) {
-    return '<div class="r"><span>' + p[0] + '</span><div class="b"><i data-w="' + p[1] + '"></i></div><span class="p">' + p[1] + '%</span></div>';
+  // ---------- Datos en la página ----------
+  $("#bars").innerHTML = D.encuesta.preocupaciones.map(function (p, i) {
+    return '<div class="r" data-in="rise" data-d="' + (0.2 + i * 0.12) + '"><span>' + esc(p[0]) + '</span><div class="b"><i data-in="bar" data-w="' + p[1] + '" data-d="' + (0.5 + i * 0.12) + '"></i></div><span class="p">' + p[1] + '%</span></div>';
   }).join("");
-  $(".enc-n").setAttribute("data-count", D.encuesta.respuestas); $(".enc-n").textContent = D.encuesta.respuestas;
+  $("#citas").innerHTML = D.encuesta.citas.map(function (c, i) {
+    return '<div class="glass quote" data-in="rise" data-d="' + (0.1 + i * 0.25) + '"><span class="qm">“</span><p>' + esc(c[0]) + '</p><small>' + esc(c[1]) + '</small></div>';
+  }).join("");
+  $("#validaron").innerHTML = D.entrevistas.validaron.map(function (t, i) { return '<li data-in="rise" data-d="' + (0.25 + i * 0.15) + '">' + esc(t) + '</li>'; }).join("");
+  $("#nofunciona").innerHTML = D.entrevistas.noFunciona.map(function (t, i) { return '<li data-in="rise" data-d="' + (0.25 + i * 0.15) + '">' + esc(t) + '</li>'; }).join("");
+  $$("[data-k]").forEach(function (el) { var v = get(el.getAttribute("data-k")); el.textContent = v; if (el.getAttribute("data-in") === "count") el.setAttribute("data-count", v); });
 
-  // hitos de la hoja de ruta
-  $$(".mdot").forEach(function (m) { m.style.cssText = "position:absolute;left:8px;top:16px;width:28px;height:28px;border-radius:50%;border:3px solid " + (m.classList.contains("on") ? "#FF6A2B;background:#FF6A2B;box-shadow:0 0 0 10px rgba(255,106,43,0.2)" : "rgba(255,255,255,0.35);background:#0B1F4D"); });
-  $$(".fs").forEach(function (f) { f.style.cssText = "display:flex;flex-direction:column;justify-content:flex-end;gap:10px;height:100%"; });
-  $$(".fb").forEach(function (b) { b.style.borderRadius = "10px"; if (!b.style.background) b.style.background = "rgba(255,255,255,0.85)"; b.style.transformOrigin = "bottom"; });
-
-  // ---------- Escenas ----------
+  // ---------- Escenas y momentos ----------
   var scenes = $$(".scene").map(function (el) {
     var s = parseFloat(el.dataset.start);
-    return { el: el, id: el.dataset.compositionId, start: s, end: s + parseFloat(el.dataset.duration) };
+    return { el: el, id: el.dataset.compositionId, start: s, end: s + parseFloat(el.dataset.duration), beats: $$("[data-show]", el) };
   });
+  function owner(el) { var b = el.parentElement ? el.parentElement.closest("[data-show]") : null; return el.hasAttribute("data-show") ? el : b; }
+  function kidsOf(beat, root) { return $$("[data-in]", root).filter(function (e) { return e !== beat && owner(e) === beat; }); }
 
-  // ---------- Entradas ----------
   var splits = new Map();
   function split(el, type) {
-    var key = type; if (!splits.has(el)) splits.set(el, {});
+    if (!splits.has(el)) splits.set(el, {});
     var c = splits.get(el);
-    if (!c[key]) c[key] = SplitText.create(el, type === "lines" ? { type: "lines", mask: "lines", aria: "hidden" } : { type: "chars", aria: "hidden" });
-    return c[key];
+    if (!c[type]) c[type] = SplitText.create(el, type === "lines" ? { type: "lines", mask: "lines", aria: "hidden" } : { type: "chars", aria: "hidden" });
+    return c[type];
   }
-  function inFx(el, base) {
-    var k = el.getAttribute("data-in"), d = base + (parseFloat(el.getAttribute("data-d")) || 0);
+  var zTop = 10;
+  function inFx(el, base, instant) {
+    var k = el.getAttribute("data-in") || "fade", d = base + (parseFloat(el.getAttribute("data-d")) || 0);
     gsap.killTweensOf(el);
+    if (k === "screen" || k === "none") el.style.zIndex = ++zTop;
+    if (instant) {
+      if (k === "lines") { var s0 = split(el, "lines"); gsap.killTweensOf(s0.lines); gsap.set(s0.lines, { yPercent: 0 }); }
+      if (k === "bar") gsap.set(el, { width: el.dataset.w + "%" });
+      if (k === "count") el.textContent = el.dataset.count;
+      if (k === "draw") gsap.set(el, { drawSVG: "100%" });
+      gsap.set(el, { opacity: 1, y: 0, x: 0, xPercent: 0, scale: 1, filter: "none" });
+      return;
+    }
     switch (k) {
-      case "lines": var sl = split(el, "lines"); gsap.set(el, { opacity: 1 });
-        gsap.fromTo(sl.lines, { yPercent: 105 }, { yPercent: 0, duration: 1.0, ease: "expo.out", stagger: 0.09, delay: d }); break;
-      case "chars": var sc = split(el, "chars"); gsap.set(el, { opacity: 1 });
-        gsap.fromTo(sc.chars, { opacity: 0, y: 60, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "expo.out", stagger: 0.06, delay: d }); break;
+      case "lines": var sl = split(el, "lines"); gsap.set(el, { opacity: 1 }); gsap.killTweensOf(sl.lines);
+        gsap.fromTo(sl.lines, { yPercent: 110 }, { yPercent: 0, duration: 1.0, ease: "expo.out", stagger: 0.09, delay: d }); break;
       case "pop": gsap.fromTo(el, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 1.0, ease: "expo.out", delay: d }); break;
-      case "rise": gsap.fromTo(el, { opacity: 0, y: 70, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0, ease: "expo.out", delay: d }); break;
-      case "up": gsap.fromTo(el, { opacity: 0, y: 260 }, { opacity: 1, y: 0, duration: 1.3, ease: "expo.out", delay: d }); break;
-      case "fade": gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.out", delay: d }); break;
-      default: gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.6, delay: d });
+      case "rise": gsap.fromTo(el, { opacity: 0, y: 60, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "expo.out", delay: d }); break;
+      case "up": gsap.fromTo(el, { opacity: 0, y: 500 }, { opacity: 1, y: 0, duration: 1.2, ease: "expo.out", delay: d }); break;
+      case "screen": gsap.fromTo(el, { opacity: 1, xPercent: 100 }, { xPercent: 0, duration: 0.7, ease: "power3.inOut", delay: d }); break;
+      case "none": gsap.set(el, { opacity: 1, xPercent: 0 }); break;
+      case "notif": gsap.fromTo(el, { opacity: 0, y: -40, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "back.out(1.6)", delay: d }); break;
+      case "pin": gsap.fromTo(el, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.6, ease: "bounce.out", delay: d }); break;
+      case "msg": gsap.fromTo(el, { opacity: 0, y: 16, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(2)", delay: d }); break;
+      case "bar": gsap.set(el, { opacity: 1 }); gsap.fromTo(el, { width: "0%" }, { width: el.dataset.w + "%", duration: 1.2, ease: "expo.out", delay: d }); break;
+      case "count": gsap.set(el, { opacity: 1 }); var o = { v: 0 }, to = +el.dataset.count;
+        gsap.fromTo(o, { v: 0 }, { v: to, duration: 1.4, ease: "power3.out", delay: d, onUpdate: function () { el.textContent = Math.round(o.v); } }); break;
+      case "draw": gsap.set(el, { opacity: 1 }); gsap.fromTo(el, { drawSVG: "0%" }, { drawSVG: "100%", duration: 0.9, ease: "power2.inOut", delay: d }); break;
+      default: gsap.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.out", delay: d });
     }
   }
-  function counters(root, base) {
-    $$("[data-count]", root).forEach(function (c) {
-      var to = +c.getAttribute("data-count"), o = { v: 0 }, ley = c.getAttribute("data-fmt") === "ley";
-      gsap.fromTo(o, { v: ley ? 20000 : 0 }, { v: to, duration: 1.6, ease: "power3.out", delay: base + 0.6, onUpdate: function () { c.textContent = fmt(o.v); } });
-    });
-    $$("[data-count-k]", root).forEach(function (c, i) {
-      var to = D.encuesta[c.getAttribute("data-count-k")], o = { v: 0 };
-      gsap.fromTo(o, { v: 0 }, { v: to, duration: 1.6, ease: "power3.out", delay: base + 0.6 + i * 0.15, onUpdate: function () { c.textContent = Math.round(o.v); } });
-    });
-  }
-
-  // ---------- Animaciones propias ----------
-  var loops = [];
-  function stopLoops() { loops.forEach(function (t) { t.kill(); }); loops = []; }
-  var SPECIAL = {
-    portada: function (el, d) {
-      var w = $$(".sw", el);
-      gsap.set(w, { color: "rgba(255,255,255,0.25)" });
-      w.forEach(function (s, i) { gsap.to(s, { color: i === 2 ? "#FF6A2B" : "#FFFFFF", duration: 0.5, delay: d + 1.1 + i * 0.35 }); });
-    },
-    usuarios: function (el, d) {
-      gsap.fromTo($$(".req", el), { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.7, ease: "expo.out", stagger: 0.15, delay: d + 1.3 });
-      $$(".tcount", el).forEach(function (c, i) { var o = { v: 0 }; gsap.fromTo(o, { v: 0 }, { v: +c.dataset.to, duration: 1.4, ease: "power3.out", delay: d + 1.0 + i * 0.1, onUpdate: function () { c.textContent = Math.round(o.v); } }); });
-    },
-    solucion: function (el, d) {
-      var seg = $(".seg", el), knob = $(".knob", seg), items = $$("span", seg);
-      function at(i, anim) {
-        var it = items[i], x = it.offsetLeft - 8, w = it.offsetWidth;
-        items.forEach(function (s, k) { s.classList.toggle("on", k === i); });
-        if (anim) gsap.to(knob, { x: x, width: w, duration: 0.55, ease: "power3.inOut" }); else gsap.set(knob, { x: x, width: w });
-      }
-      at(0, false);
-      var tl = gsap.timeline({ delay: d + 1.6, repeat: -1, repeatDelay: 0.2 });
-      items.forEach(function (_, i) { tl.call(function () { at(i, true); }, null, i * 1.1); });
-      tl.to({}, { duration: 1.1 }); loops.push(tl);
-    },
-    recorrido: function (el, d) {
-      var steps = $$(".step", el), rail = $(".rail i", el);
-      steps.forEach(function (s) { s.classList.remove("done"); });
-      gsap.fromTo(rail, { height: "0%" }, { height: "100%", duration: 3.0, ease: "none", delay: d + 0.6 });
-      steps.forEach(function (s, i) {
-        pending.push(gsap.delayedCall(d + 0.6 + i * 0.55, function () {
-          s.classList.add("done");
-          gsap.fromTo($(".dot", s), { scale: 0.6 }, { scale: 1, duration: 0.6, ease: "back.out(3)" });
-        }));
-      });
-    },
-    encuesta: function (el, d) {
-      $$(".b i", el).forEach(function (b, i) { gsap.fromTo(b, { width: "0%" }, { width: b.dataset.w + "%", duration: 1.2, ease: "expo.out", delay: d + 1.0 + i * 0.12 }); });
-    },
-    entrevistas: function (el, d) {
-      $$(".dots5", el).forEach(function (row, r) {
-        $$("i", row).forEach(function (i, k) {
-          i.classList.remove("on");
-          if (i.dataset.on === "1") pending.push(gsap.delayedCall(d + 0.7 + r * 0.15 + k * 0.15, function () { i.classList.add("on"); gsap.fromTo(i, { scale: 1.4 }, { scale: 1, duration: 0.5, ease: "back.out(3)" }); }));
-        });
-      });
-    },
-    pasos: function (el, d) {
-      gsap.fromTo($(".rd", el), { drawSVG: "0% 0%" }, { drawSVG: "0% 12%", duration: 1.2, ease: "power3.out", delay: d + 0.6 });
-    },
-    cierre: function () {}
-  };
-
-  var FRAG = {
-    "competencia@61.5": function (el) {
-      var cs = $$(".mc", el), one = $(".one", el);
-      gsap.set(one, { opacity: 0 });
-      gsap.fromTo(cs, { opacity: 0, y: 40, x: 0, scale: 1 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", stagger: 0.1 });
-      cs.forEach(function (c) { var dx = 820 - (c.offsetLeft + c.offsetWidth / 2); gsap.to(c, { x: dx, scale: 0.6, opacity: 0, duration: 0.6, ease: "power3.in", delay: 1.5 }); });
-      gsap.fromTo(one, { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.9, ease: "expo.out", delay: 2.0 });
-    },
-    "negocio@55.5": function (el) { var o = { v: 0 }, n = $(".tot", el); gsap.fromTo(o, { v: 0 }, { v: 1900000, duration: 1.6, ease: "power3.out", delay: 0.3, onUpdate: function () { n.textContent = fmt(o.v); } }); },
-    "pasos@85.5": function (el) { gsap.fromTo($$(".fb", el), { scaleY: 0 }, { scaleY: 1, duration: 1.0, ease: "expo.out", stagger: 0.1, delay: 0.3 }); },
-    "hibrido@37.5": function (el) { gsap.fromTo($$(".q", el), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", stagger: 0.35, delay: 0.8 }); },
-    "problema@7.5": function (el) { gsap.fromTo($$(".doubt", el), { opacity: 0, y: 50, filter: "blur(8px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "expo.out", stagger: 0.1 }); }
-  };
-  function fragFinal(key, el) {
-    if (key === "competencia@61.5") { gsap.set($$(".mc", el), { opacity: 0 }); gsap.set($(".one", el), { opacity: 1, scale: 1 }); }
-    if (key === "negocio@55.5") $(".tot", el).textContent = fmt(1900000);
-    if (key === "problema@7.5") gsap.set($$(".doubt", el), { opacity: 1, y: 0, filter: "none" });
-    if (key === "hibrido@37.5") gsap.set($$(".q", el), { opacity: 1, y: 0 });
+  function outFx(el, instant) {
+    gsap.killTweensOf(el);
+    var k = el.getAttribute("data-out") || "up";
+    if (instant) { gsap.set(el, { opacity: 0 }); return; }
+    if (k === "screen") gsap.set(el, { opacity: 0, delay: 0.75 });
+    else if (k === "drop") gsap.to(el, { y: 700, opacity: 0, duration: 0.7, ease: "power3.in" });
+    else gsap.to(el, { opacity: 0, y: -30, filter: "blur(6px)", duration: 0.35, ease: "power2.in" });
   }
 
-  // ---------- iPhone que recorre la presentación ----------
-  var phone = $("#phone");
-  var PH = {
-    portada:  { x: 1440, y: 600, s: 1.08, r: 6,  screen: "home" },
-    proceso:  { x: 1500, y: 560, s: 1.0,  r: -4, screen: "chats" },
-    solucion: { x: 1460, y: 560, s: 1.06, r: 0,  screen: "home" },
-    hibrido:  { x: 360,  y: 660, s: 0.78, r: 0,  screen: "mapa" },
-    resenas:  { x: 1460, y: 560, s: 1.0,  r: 3,  screen: "resena" }
+  var HOOK = {
+    focus: {
+      on: function (b, instant) { $(".msgs", b.closest(".scene")).classList.add("focus"); },
+      off: function (b) { $(".msgs", b.closest(".scene")).classList.remove("focus"); }
+    }
   };
-  var phState = null, curScreen = null;
-  function place(st) { return { x: st.x - 200, y: st.y - 410, scale: st.s, rotation: st.r }; }
-  function showScreen(name, instant) {
-    if (curScreen === name) { runScreen(name); return; }
-    var oldName = curScreen, old = curScreen ? $('[data-screen="' + curScreen + '"]', phone) : null, nw = $('[data-screen="' + name + '"]', phone);
-    curScreen = name;
-    // cortar transiciones anteriores para que un cambio rápido no deje la pantalla vacía
-    $$(".app", phone).forEach(function (a) { gsap.killTweensOf(a); if (a !== nw && a !== old) gsap.set(a, { visibility: "hidden", xPercent: 0, opacity: 1 }); });
-    gsap.set(nw, { visibility: "visible", opacity: 1, zIndex: 2 });
-    if (old && !instant) {
-      gsap.set(old, { zIndex: 1 });
-      gsap.fromTo(nw, { xPercent: 100 }, { xPercent: 0, duration: 0.7, ease: "power3.inOut" });
-      gsap.to(old, { xPercent: -30, opacity: 0.4, duration: 0.7, ease: "power3.inOut", onComplete: function () { if (curScreen !== oldName) gsap.set(old, { visibility: "hidden", xPercent: 0, opacity: 1 }); } });
-    } else { gsap.set(nw, { xPercent: 0 }); if (old) gsap.set(old, { visibility: "hidden", xPercent: 0, opacity: 1 }); }
-    runScreen(name);
-  }
-  function runScreen(name) {
-    var s = $('[data-screen="' + name + '"]', phone), d = 0.9;
-    if (name === "chats") {
-      gsap.fromTo($$(".cr", s), { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: 0.5, ease: "expo.out", stagger: 0.12, delay: d });
-      gsap.fromTo($$(".cm", s), { opacity: 0, y: 20, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(2)", stagger: 0.5, delay: d + 0.8 });
+
+  function setBeat(b, on, instant, base) {
+    if (b._on === on) return; b._on = on;
+    var h = HOOK[b.getAttribute("data-hook")];
+    if (on) {
+      if (b.hasAttribute("data-in")) inFx(b, base, instant);
+      else { gsap.killTweensOf(b); gsap.set(b, { opacity: 1, y: 0, filter: "none" }); }
+      kidsOf(b, b).forEach(function (k) { if (!instant && k.getAttribute("data-in") !== "bar") gsap.set(k, { opacity: 0 }); inFx(k, base, instant); });
+      if (h) h.on(b, instant);
+    } else {
+      outFx(b, instant);
+      if (h) h.off(b, instant);
     }
-    if (name === "home") {
-      gsap.fromTo($$(".hp", s), { y: -60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "bounce.out", stagger: 0.12, delay: d });
-      gsap.fromTo($$(".hc", s), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", stagger: 0.12, delay: d + 0.6 });
-    }
-    if (name === "mapa") {
-      var sel = $(".sel", s), sheet = $(".sheet", s), bk = $(".bk", s), toast = $(".toast", s);
-      gsap.set(toast, { opacity: 0, y: -20 });
-      gsap.fromTo(sel, { scale: 1 }, { scale: 1.45, transformOrigin: "50% 100%", duration: 0.5, ease: "back.out(3)", delay: d + 0.3 });
-      gsap.fromTo(sheet, { yPercent: 110 }, { yPercent: 0, duration: 0.8, ease: "expo.out", delay: d + 0.5 });
-      gsap.fromTo(bk, { scale: 1 }, { scale: 0.94, duration: 0.15, yoyo: true, repeat: 1, delay: d + 1.8 });
-      gsap.to(toast, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out", delay: d + 2.1 });
-    }
-    if (name === "resena") {
-      var cks = $$(".ck", s), stars = $$(".st5 span", s), rv = $(".rv", s);
-      gsap.set(cks, { scale: 0, opacity: 0 }); gsap.set(stars, { color: "#D3DAE6" });
-      gsap.to(cks, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(3)", stagger: 0.6, delay: d + 0.4 });
-      gsap.fromTo(rv, { opacity: 0.35 }, { opacity: 1, duration: 0.4, delay: d + 1.6 });
-      gsap.to(stars, { color: "#FF6A2B", duration: 0.2, stagger: 0.15, delay: d + 1.9 });
-    }
-  }
-  function phoneTo(id, instant) {
-    var st = PH[id] || null;
-    gsap.killTweensOf(phone);
-    if (st) {
-      var to = place(st);
-      if (!phState) { // entra desde abajo
-        gsap.set(phone, { visibility: "visible" });
-        if (instant) gsap.set(phone, Object.assign({ opacity: 1 }, to));
-        else gsap.fromTo(phone, Object.assign({}, to, { y: to.y + 900, opacity: 1 }), Object.assign({}, to, { duration: 1.2, ease: "expo.out" }));
-      } else gsap.to(phone, Object.assign({}, to, { opacity: 1, duration: instant ? 0 : 1.1, ease: "power3.inOut" }));
-      showScreen(st.screen, instant || !phState);
-    } else if (phState) {
-      gsap.to(phone, { y: "+=900", duration: 0.8, ease: "power3.in", onComplete: function () { gsap.set(phone, { visibility: "hidden" }); } });
-    }
-    phState = st;
   }
 
   // ---------- Cambio de escena ----------
-  var pending = [];
-  function enter(s, base) {
-    pending.forEach(function (p) { p.kill(); }); pending = [];
+  var active = null, first = true;
+  function enter(s, t, base) {
     gsap.killTweensOf(s.el); gsap.set(s.el, { visibility: "visible", opacity: 1, y: 0, filter: "none" });
-    var items = $$("[data-in]", s.el).filter(function (el) { return !el.closest(".frag"); });
-    items.forEach(function (el) { gsap.set(el, { opacity: 0 }); });
-    items.forEach(function (el) { inFx(el, base); });
-    counters(s.el, base);
-    stopLoops();
-    if (SPECIAL[s.id]) SPECIAL[s.id](s.el, base);
+    $$("[data-in]", s.el).filter(function (e) { return owner(e) === null; }).forEach(function (e) { gsap.set(e, { opacity: 0 }); inFx(e, base, false); });
+    s.beats.forEach(function (b) { b._on = undefined; });
+    s.beats.forEach(function (b) { if (!isOn(b, t)) setBeat(b, false, true, 0); });
+    s.beats.forEach(function (b) { if (isOn(b, t)) setBeat(b, true, false, base); });
   }
   function leave(s) {
     gsap.to(s.el, { opacity: 0, y: -40, filter: "blur(8px)", duration: 0.4, ease: "power2.in", onComplete: function () { if (active !== s) gsap.set(s.el, { visibility: "hidden", y: 0, filter: "none" }); } });
   }
-  function setFrag(s, f, on, animate) {
-    if (f._on === on) return; f._on = on;
-    var key = s.id + "@" + f.getAttribute("data-frag");
-    if (on && animate) {
-      gsap.fromTo(f, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: "expo.out" });
-      if (FRAG[key]) FRAG[key](s.el);
-    } else { gsap.killTweensOf(f); gsap.set(f, { opacity: on ? 1 : 0, y: 0 }); if (on) fragFinal(key, s.el); }
+  function isOn(b, t) {
+    var a = parseFloat(b.getAttribute("data-show")), z = b.hasAttribute("data-hide") ? parseFloat(b.getAttribute("data-hide")) : Infinity;
+    return t >= a - 0.0001 && t < z - 0.0001;
   }
-
-  var active = null, first = true;
   function update(t) {
     var cur = null;
     for (var i = 0; i < scenes.length; i++) if (t >= scenes[i].start - 0.0001 && t < scenes[i].end) cur = scenes[i];
-    if (!cur && t >= 96) cur = scenes[scenes.length - 1];
+    if (!cur && t >= 48) cur = scenes[scenes.length - 1];
     if (cur !== active) {
       var prev = active; active = cur;
       if (prev) leave(prev);
-      if (cur) {
-        $$(".frag", cur.el).forEach(function (f) { f._on = undefined; });
-        enter(cur, first ? 0.1 : 0.35);
-        phoneTo(cur.id, first);
-      }
+      if (cur) enter(cur, t, first ? 0.1 : 0.35);
       first = false;
+      return;
     }
-    if (cur) $$(".frag", cur.el).forEach(function (f) {
-      var on = t >= parseFloat(f.getAttribute("data-frag")) - 0.0001;
-      setFrag(cur, f, on, f._on !== undefined);
-    });
+    if (cur) {
+      // primero lo que sale, después lo que entra
+      cur.beats.forEach(function (b) { if (!isOn(b, t)) setBeat(b, false, false, 0); });
+      cur.beats.forEach(function (b) { if (isOn(b, t)) setBeat(b, true, false, 0.15); });
+    }
   }
 
   window.__timelines = window.__timelines || {};
   var root = gsap.timeline({ paused: true });
-  root.to({}, { duration: 96 });
+  root.to({}, { duration: 48 });
   window.__timelines["root"] = root;
   window.__hfSetTime = update;
   update(0);
   root.eventCallback("onUpdate", function () { update(root.time()); });
 
   function postTimeline() {
-    parent.postMessage({ source: "hf-preview", type: "timeline", durationInFrames: 96 * 30,
+    parent.postMessage({ source: "hf-preview", type: "timeline", durationInFrames: 48 * 30,
       scenes: scenes.map(function (s) { return { id: s.id, start: s.start, duration: s.end - s.start }; }) }, "*");
   }
   if (!window.__STANDALONE) {
-  if (document.readyState === "complete") setTimeout(postTimeline, 300);
+    if (document.readyState === "complete") setTimeout(postTimeline, 300);
     else window.addEventListener("load", function () { setTimeout(postTimeline, 300); });
   }
 })();
