@@ -172,6 +172,20 @@
   .steps .s p { font-size: 46px; font-weight: 600; line-height: 1.12; letter-spacing: -0.025em; }
   .steps .s:not(.on) p { color: var(--dim); }
 
+  /* Lucas */
+  .lucas { position: absolute; overflow: visible; }
+  .lucas .smile, .lucas .flat, .lucas .brow { transition: opacity .3s; }
+  .lucas .flat, .lucas .brow { opacity: 0; }
+  .lucas.worried .smile { opacity: 0; }
+  .lucas.worried .flat, .lucas.worried .brow { opacity: 1; }
+  .doubt { display: flex; align-items: center; gap: 22px; padding: 26px 34px; font-size: 40px; font-weight: 500; letter-spacing: -0.015em; border-radius: 30px; }
+  .doubt svg { width: 40px; height: 40px; color: var(--orange); }
+  .pick { display: flex; align-items: center; gap: 24px; padding: 24px 30px; border-radius: 28px; }
+  .pick b { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; display: block; }
+  .pick small { font-size: 26px; color: var(--dim); display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .pick small svg { width: 24px; height: 24px; color: var(--orange); }
+  .pick .pr { margin-left: auto; font-size: 40px; font-weight: 700; letter-spacing: -0.03em; }
+
   #fit { position: fixed; inset: 0; overflow: hidden; background: var(--blue); touch-action: pan-y; }
   #nav { position: fixed; z-index: 100; display: flex; align-items: center; gap: 4px; padding: 6px;
     right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
@@ -195,6 +209,8 @@
 <div id="fit">
 
 <svg width="0" height="0" style="position:absolute">
+<symbol id="i-badge-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+  <path d="m9 12 2 2 4-4" /></symbol>
 <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
   <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></symbol>
 <symbol id="i-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
@@ -258,10 +274,10 @@
 <script type="application/hyperframes-slideshow+json">
 {
   "slides": [
-    { "sceneId": "escenario", "fragments": [0.5, 1.5, 2.5, 3.5, 4.5, 5.5], "notes": "INTEGRANTE 1 (0:00 – 2:00). Él es Lucas. Vive en Quilmes, tiene un Gol 2014 y el celular le avisa que ya le toca el service: cambio de aceite y filtros. Algo simple, ¿no? [CLIC] Entonces busca un taller. Aparecen decenas a pocas cuadras. Todos dicen ser buenos y todos tienen más o menos 4,5 estrellas. ¿Cómo elige? No sabe. Así que elige uno casi al azar. [CLIC] Le escribe, lleva el auto y al rato le llega este mensaje: «Ya que estamos, hay que cambiar pastillas, discos y amortiguadores. Te queda todo en 480 mil pesos». Lucas pregunta si es urgente. «Si no lo hacés, es peligroso». [CLIC] ¿Era necesario? Lucas no tiene forma de saberlo. [CLIC] Y Lucas no es la excepción. En Argentina circulan casi 16 millones de vehículos, con casi 15 años de antigüedad promedio. Autos más viejos significan más visitas al taller. Y solo en Quilmes viven más de 630 mil personas. [CLIC] Cuando empezamos, creíamos que el problema era encontrar un taller barato. Pero en el campo descubrimos otra cosa: el conductor no puede verificar nada. Ni el diagnóstico, ni el precio, ni la reputación del taller. En economía esto tiene nombre: es un «bien de confianza», porque incluso después de pagar no sabés si lo que te hicieron era necesario. Lo llamamos «mala suerte con el mecánico», pero es un problema de información. Integrante 2 les cuenta cómo lo comprobamos." },
-    { "sceneId": "campo", "fragments": [12.5, 13.5, 14.5], "notes": "INTEGRANTE 2 (2:00 – 4:00). Para no quedarnos con una intuición, salimos a preguntar. Encuestamos a 80 conductores, la mayoría de Quilmes y alrededores. El 58% nos dijo que le resulta difícil encontrar un taller de confianza. Y el 63% ya tuvo una mala experiencia con algún taller. Lo de Lucas no es un caso aislado: es lo más común. [CLIC] Después les preguntamos qué les preocupa más al elegir. Primero: no saber si el precio es justo, 71%. Segundo: desconfiar del diagnóstico, 64%. Tercero: no conocer la calidad del trabajo. Fíjense que son exactamente las tres cosas que dijimos antes: precio, diagnóstico y reputación. Lo que el conductor no puede verificar. [CLIC] Y lo que nos contaron confirma los números. Un conductor de Bernal nos dijo: «Fui a cambiar el aceite y me quisieron cambiar medio auto». Es literalmente la historia de Lucas. Y una conductora de Quilmes: «Siempre voy al mismo. No porque sea bueno, sino porque no conozco otro». La gente no elige al mejor taller: elige al único que conoce. Pero esta es solo la mirada del conductor. Para escuchar la otra campana, fuimos a hablar con los que están del otro lado del mostrador. Les cuenta Integrante 3." },
+    { "sceneId": "escenario", "fragments": [0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5], "notes": "INTEGRANTE 1 (0:00 – 2:00). Él es Lucas. Vive en Quilmes y tiene que cambiar las pastillas de freno de su auto. Algo bastante común, ¿no? [CLIC] Pero Lucas desconfía. La última vez que fue a un taller le cobraron de más. Y ahora se pregunta: ¿me van a cobrar de más? ¿Lo que me digan va a ser cierto? ¿Quién me lo va a hacer bien? [CLIC] Así que busca un taller. Aparecen decenas a pocas cuadras. Todos dicen ser buenos y todos tienen más o menos 4,5 estrellas. ¿Cómo elige? No sabe. [CLIC] Elige uno casi al azar. Le escribe, lleva el auto y al rato le llega este mensaje: «Ya que estamos, también hay que cambiar discos y amortiguadores. Te queda todo en 480 mil pesos». Lucas pregunta si es urgente. «Si no lo hacés, es peligroso». [CLIC] ¿Era necesario? Lucas no tiene forma de saberlo. [CLIC] Y Lucas no es la excepción. En Argentina circulan casi 16 millones de vehículos, con casi 15 años de antigüedad promedio. Autos más viejos significan más visitas al taller. Y solo en Quilmes viven más de 630 mil personas. [CLIC] Cuando empezamos, creíamos que el problema era encontrar un taller barato. Pero en el campo descubrimos otra cosa: el conductor no puede verificar nada. Ni el diagnóstico, ni el precio, ni la reputación del taller. En economía esto tiene nombre: es un «bien de confianza», porque incluso después de pagar no sabés si lo que te hicieron era necesario. Lo llamamos «mala suerte con el mecánico», pero es un problema de información. Integrante 2 les cuenta cómo lo comprobamos." },
+    { "sceneId": "campo", "fragments": [12.5, 13.5, 14.5], "notes": "INTEGRANTE 2 (2:00 – 4:00). Para no quedarnos con una intuición, salimos a preguntar. Encuestamos a 80 conductores, la mayoría de Quilmes y alrededores. El 58% nos dijo que le resulta difícil encontrar un taller de confianza. Y el 63% ya tuvo una mala experiencia con algún taller. Lo de Lucas no es un caso aislado: es lo más común. [CLIC] Después les preguntamos qué les preocupa más al elegir. Primero: no saber si el precio es justo, 71%. Segundo: desconfiar del diagnóstico, 64%. Tercero: no conocer la calidad del trabajo. Fíjense que son exactamente las tres cosas que dijimos antes: precio, diagnóstico y reputación. Lo que el conductor no puede verificar. [CLIC] Y lo que nos contaron confirma los números. Un conductor de Bernal nos dijo: «Fui a cambiar las pastillas y me quisieron cambiar medio auto». Es literalmente la historia de Lucas. Y una conductora de Quilmes: «Siempre voy al mismo. No porque sea bueno, sino porque no conozco otro». La gente no elige al mejor taller: elige al único que conoce. Pero esta es solo la mirada del conductor. Para escuchar la otra campana, fuimos a hablar con los que están del otro lado del mostrador. Les cuenta Integrante 3." },
     { "sceneId": "expertos", "fragments": [24.5, 25.5, 26.5, 27.5], "notes": "INTEGRANTE 3 (4:00 – 6:00). Entrevistamos a cinco talleres con perfiles distintos: uno de mecánica general, uno de frenos y suspensión, un taller chico independiente, uno grande y consolidado, y una persona de recepción, que es quien atiende las consultas todos los días. Primero les preguntamos por sus problemas y recién al final les contamos la idea, para no influir en sus respuestas. [CLIC] ¿Qué nos validaron? Que el cliente nuevo llega desconfiando del presupuesto. Que casi todo su trabajo viene del boca en boca. Y que responder consultas por WhatsApp, una por una, les lleva horas. El problema de confianza también les duele a ellos: les cuesta conseguir clientes nuevos porque nadie los conoce. [CLIC] Pero también nos dijeron qué no funcionaría, y eso nos sirvió todavía más. Primero: no se puede dar un presupuesto exacto sin ver el auto; como mucho, un rango o el costo del diagnóstico. Segundo: una reseña sin un trabajo real detrás no vale nada. Y tercero: ningún taller va a pagar antes de ver clientes concretos. [CLIC] Uno de ellos nos dejó esta frase: «El cliente nuevo llega pensando que le vamos a robar. Y la verdad, algunos talleres lo hacen». La desconfianza perjudica a los dos lados: al conductor, que no sabe a quién creerle, y al taller honesto, que no tiene cómo demostrarlo. Integrante 4 les cuenta qué hacemos con todo esto." },
-    { "sceneId": "stem", "fragments": [36.5, 37.5, 38.5, 39.5], "notes": "INTEGRANTE 4 (6:00 – 8:00). Después de todo este trabajo de campo, nuestro aporte es un cambio de encuadre: el problema no es encontrar un taller; es poder verificarlo. Planteado así, deja de ser un problema de suerte y pasa a ser un problema de información. Y los problemas de información se pueden atacar con ingeniería. [CLIC] Con ciencia de datos, a partir de presupuestos reales, se pueden construir precios de referencia por zona y por tipo de trabajo. Con inteligencia artificial, se puede pasar de los síntomas que describe el conductor a un prediagnóstico orientativo, para que llegue al taller sabiendo qué preguntar. Con ingeniería de software, se pueden diseñar reseñas que solo existan si hubo un servicio confirmado por las dos partes. Y con investigación operativa, se pueden organizar los turnos según la capacidad real de cada taller. [CLIC] Nuestros próximos pasos: hoy estamos terminando las encuestas y entrevistas. Después viene un prototipo para probar con conductores y talleres, y luego un piloto en Quilmes, donde vamos a medir si la confianza se convierte en turnos y trabajos reales. [CLIC] Volviendo a Lucas: él no necesita un taller más barato. Necesita poder confiar. Eso es llave. Compará, elegí, confiá. Muchas gracias. ¿Preguntas?" }
+    { "sceneId": "stem", "fragments": [36.5, 37.5, 38.5, 39.5, 40.5], "notes": "INTEGRANTE 4 (6:00 – 8:00). Después de todo este trabajo de campo, nuestro aporte es un cambio de encuadre: el problema no es encontrar un taller; es poder verificarlo. Planteado así, deja de ser un problema de suerte y pasa a ser un problema de información. Y los problemas de información se pueden atacar con ingeniería. [CLIC] Con ciencia de datos, a partir de presupuestos reales, se pueden construir precios de referencia por zona y por tipo de trabajo. Con inteligencia artificial, se puede pasar de los síntomas que describe el conductor a un prediagnóstico orientativo, para que llegue al taller sabiendo qué preguntar. Con ingeniería de software, se pueden diseñar reseñas que solo existan si hubo un servicio confirmado por las dos partes. Y con investigación operativa, se pueden organizar los turnos según la capacidad real de cada taller. [CLIC] Nuestros próximos pasos: hoy estamos terminando las encuestas y entrevistas. Después viene un prototipo para probar con conductores y talleres, y luego un piloto en Quilmes, donde vamos a medir si la confianza se convierte en turnos y trabajos reales. [CLIC] ¿Y Lucas? Con llave, podría pedir presupuestos a varios talleres a la vez, ver reseñas que solo dejan clientes con un trabajo confirmado, y elegir sabiendo, no adivinando. [CLIC] Porque Lucas no necesita un taller más barato. Necesita poder confiar. Eso es llave. Compará, elegí, confiá. Muchas gracias. ¿Preguntas?" }
   ]
 }
 </script>
@@ -275,37 +291,68 @@
     <!-- Historia de Lucas -->
     <div class="x" data-show="0.5" data-hide="1.5" style="left:140px;top:330px;width:980px">
       <h1 class="h-xl" data-in="lines">Él es Lucas.</h1>
-      <p class="lead" style="margin-top:40px" data-in="lines" data-d="0.35">Vive en Quilmes, maneja un Gol 2014 y le toca el service: aceite y filtros.</p>
+      <p class="lead" style="margin-top:40px" data-in="lines" data-d="0.35">Vive en Quilmes y tiene que cambiar las pastillas de freno de su auto.</p>
     </div>
-    <div class="x" data-show="1.5" data-hide="2.5" style="left:140px;top:330px;width:980px">
+    <div class="x" data-show="1.5" data-hide="2.5" style="left:140px;top:250px;width:980px">
+      <h2 class="h-l" data-in="lines">Pero desconfía.</h2>
+      <p class="lead" style="margin-top:26px" data-in="lines" data-d="0.25">La última vez le cobraron de más.</p>
+      <div style="display:flex;flex-direction:column;gap:18px;margin-top:44px;width:860px">
+        <div class="glass doubt" data-in="rise" data-d="0.6"><svg class="i"><use href="#i-scale"/></svg>¿Me van a cobrar de más?</div>
+        <div class="glass doubt" data-in="rise" data-d="0.75"><svg class="i"><use href="#i-stethoscope"/></svg>¿Lo que me digan va a ser cierto?</div>
+        <div class="glass doubt" data-in="rise" data-d="0.9"><svg class="i"><use href="#i-star"/></svg>¿Quién me lo hace bien?</div>
+      </div>
+    </div>
+    <div class="x" data-show="2.5" data-hide="3.5" style="left:140px;top:330px;width:980px">
       <h2 class="h-l" data-in="lines">¿A qué taller lo lleva?</h2>
       <p class="lead" style="margin-top:40px" data-in="lines" data-d="0.35">Hay decenas cerca. Todos dicen ser buenos. Todos tienen 4,5 estrellas.</p>
     </div>
-    <div class="x" data-show="2.5" data-hide="3.5" style="left:140px;top:330px;width:980px">
-      <h2 class="h-l" data-in="lines">Elige uno casi al azar.</h2>
-      <p class="lead" style="margin-top:40px" data-in="lines" data-d="0.35">Fue a cambiar el aceite. Salió con un presupuesto de <span style="color:#fff;font-weight:600">$480.000</span>.</p>
-    </div>
     <div class="x" data-show="3.5" data-hide="4.5" style="left:140px;top:330px;width:980px">
+      <h2 class="h-l" data-in="lines">Elige uno casi al azar.</h2>
+      <p class="lead" style="margin-top:40px" data-in="lines" data-d="0.35">Fue a cambiar las pastillas. Salió con un presupuesto de <span style="color:#fff;font-weight:600">$480.000</span>.</p>
+    </div>
+    <div class="x" data-show="4.5" data-hide="5.5" style="left:140px;top:330px;width:980px">
       <h2 class="h-xl" data-in="lines">¿Era necesario?</h2>
       <p class="h-s or" style="margin-top:44px" data-in="lines" data-d="0.4">Lucas no tiene forma de saberlo.</p>
     </div>
-    <i data-show="3.5" data-hide="4.5" data-hook="focus"></i>
+    <i data-show="4.5" data-hide="5.5" data-hook="focus"></i>
+
+    <!-- Lucas -->
+    <div class="x" data-show="0.5" data-hide="2.5" data-in="up" style="left:1270px;top:300px;width:420px;height:600px">
+      <svg class="lucas" id="lucas1" viewBox="0 0 420 600" width="420" height="600" aria-label="Lucas">
+        <ellipse cx="210" cy="584" rx="130" ry="13" fill="rgba(2,8,28,0.35)"/>
+        <path d="M162 440 L152 568 L203 568 L208 450 Z" fill="#2A4BA0"/>
+        <path d="M212 450 L217 568 L268 568 L258 440 Z" fill="#2A4BA0"/>
+        <rect x="140" y="562" width="68" height="20" rx="10" fill="#fff"/>
+        <rect x="212" y="562" width="68" height="20" rx="10" fill="#fff"/>
+        <path d="M140 282 Q114 360 124 428" stroke="#FF6A2B" stroke-width="34" stroke-linecap="round" fill="none"/>
+        <circle cx="125" cy="440" r="17" fill="#FFD2B5"/>
+        <path d="M140 262 Q210 238 280 262 Q300 270 300 300 L292 456 Q210 472 128 456 L120 300 Q120 270 140 262 Z" fill="#FF6A2B"/>
+        <path d="M182 258 Q210 292 238 258" stroke="#FF9A5C" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M168 398 H252" stroke="rgba(255,255,255,0.28)" stroke-width="4" stroke-linecap="round"/>
+        <g class="arm">
+          <path d="M282 282 Q328 232 336 166" stroke="#FF6A2B" stroke-width="34" stroke-linecap="round" fill="none"/>
+          <circle cx="337" cy="146" r="19" fill="#FFD2B5"/>
+          <ellipse cx="322" cy="150" rx="7" ry="11" fill="#FFD2B5" transform="rotate(-30 322 150)"/>
+        </g>
+        <rect x="194" y="214" width="32" height="42" rx="12" fill="#F0BC9A"/>
+        <circle cx="146" cy="176" r="12" fill="#F0BC9A"/><circle cx="274" cy="176" r="12" fill="#F0BC9A"/>
+        <circle cx="210" cy="170" r="66" fill="#FFD2B5"/>
+        <path d="M146 166 Q138 100 202 96 Q264 92 276 154 Q262 128 232 126 Q198 142 158 132 Q150 146 146 166 Z" fill="#081634"/>
+        <circle cx="186" cy="180" r="6.5" fill="#081634"/><circle cx="234" cy="180" r="6.5" fill="#081634"/>
+        <circle cx="170" cy="200" r="10" fill="#FF9A5C" opacity="0.35"/><circle cx="250" cy="200" r="10" fill="#FF9A5C" opacity="0.35"/>
+        <path class="smile" d="M190 204 Q210 222 230 204" stroke="#081634" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path class="flat" d="M194 213 Q210 204 226 213" stroke="#081634" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <g class="brow" stroke="#081634" stroke-width="5" stroke-linecap="round"><path d="M172 166 L196 158"/><path d="M248 166 L224 158"/></g>
+      </svg>
+    </div>
+    <i data-show="0.5" data-hide="1.5" data-hook="wave" data-target="#lucas1"></i>
+    <i data-show="1.5" data-hide="2.5" data-hook="worried" data-target="#lucas1"></i>
 
     <!-- iPhone de Lucas -->
-    <div class="phone" data-show="0.5" data-hide="4.5" data-in="up" data-out="drop" style="left:1240px;top:170px">
+    <div class="phone" data-show="2.5" data-hide="5.5" data-in="up" data-out="drop" style="left:1240px;top:170px">
       <div class="scr"><div class="island"></div>
-        <!-- Recordatorio -->
-        <div class="app lock" data-show="0.5" data-hide="1.5" data-in="none" data-out="screen">
-          <div class="sb" style="color:#fff"><b>9:41</b><span><i></i></span></div>
-          <div class="dt">Sábado</div>
-          <div class="tm">9:41</div>
-          <div class="notif row" data-in="notif" data-d="0.9" style="align-items:flex-start">
-            <div class="ic"><svg class="i"><use href="#i-bell"/></svg></div>
-            <div style="flex:1"><div class="h"><span>RECORDATORIO</span><span>ahora</span></div><b>Service del auto</b><p>Cambio de aceite y filtros · 10.000 km</p></div>
-          </div>
-        </div>
         <!-- Búsqueda -->
-        <div class="app" data-show="1.5" data-hide="2.5" data-in="screen" data-out="screen">
+        <div class="app" data-show="2.5" data-hide="3.5" data-in="none" data-out="screen">
           <div class="map">
             <svg class="streets" viewBox="0 0 372 400" preserveAspectRatio="none"><g stroke="#fff" stroke-linecap="round"><path d="M-10 150 L390 110" stroke-width="16"/><path d="M120 -10 L160 440" stroke-width="12"/><path d="M-10 300 L390 270" stroke-width="10"/><path d="M280 -10 L300 440" stroke-width="10"/><path d="M-10 60 L390 40" stroke-width="6"/><path d="M40 -10 L60 440" stroke-width="6"/><path d="M-10 220 L390 200" stroke-width="5"/></g></svg>
             <span class="mpin" data-in="pin" data-d="0.7" style="left:70px;top:170px"><svg viewBox="0 0 24 24"><use href="#i-map-pin"/></svg></span>
@@ -331,14 +378,14 @@
           </div>
         </div>
         <!-- Chat con el taller -->
-        <div class="app" data-show="2.5" data-hide="4.5" data-in="screen" data-out="screen">
+        <div class="app" data-show="3.5" data-hide="5.5" data-in="screen" data-out="screen">
           <div class="chat-h"><svg class="i"><use href="#i-chevron-left"/></svg><div class="av">TA</div><div><b>Taller Avenida</b><small>en línea</small></div></div>
           <div class="sb"><b>9:41</b><span><i></i></span></div>
           <div class="msgs">
-            <div class="me" data-in="msg" data-d="0.8">Hola, quiero hacer cambio de aceite y filtros. ¿Lo llevo hoy?</div>
-            <div class="th" data-in="msg" data-d="1.2">Sí, traelo.</div>
+            <div class="me" data-in="msg" data-d="0.8">Hola, necesito cambiar las pastillas de freno. ¿Cuánto sale?</div>
+            <div class="th" data-in="msg" data-d="1.2">Traelo y lo vemos.</div>
             <div class="tsep" data-in="msg" data-d="1.6">13:40</div>
-            <div class="th" data-in="msg" data-d="1.9">Ya que estamos lo revisé: hay que cambiar pastillas, discos y amortiguadores.</div>
+            <div class="th" data-in="msg" data-d="1.9">Ya que estamos lo revisé: también hay que cambiar discos y amortiguadores.</div>
             <div class="th hot" data-in="msg" data-d="2.6">Todo te queda en<br><b>$480.000</b></div>
             <div class="me" data-in="msg" data-d="3.3">¿Es urgente?</div>
             <div class="th" data-in="msg" data-d="3.9">Si no lo hacés, es peligroso.</div>
@@ -348,7 +395,7 @@
     </div>
 
     <!-- Contexto macro -->
-    <div class="x" data-show="4.5" data-hide="5.5" style="left:140px;top:230px;width:1640px">
+    <div class="x" data-show="5.5" data-hide="6.5" style="left:140px;top:230px;width:1640px">
       <h2 class="h-m" data-in="lines">Y Lucas no es la excepción.</h2>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:60px;margin-top:90px">
         <div class="stat" data-in="rise" data-d="0.3"><div class="bignum">15,8 M</div><p>vehículos circulan en Argentina</p></div>
@@ -359,7 +406,7 @@
     </div>
 
     <!-- POV -->
-    <div class="x" data-show="5.5" style="left:140px;top:200px;width:1640px">
+    <div class="x" data-show="6.5" style="left:140px;top:200px;width:1640px">
       <p class="lead" data-in="lines">Creíamos que el problema era encontrar un taller barato.</p>
       <h2 class="h-l" style="margin-top:22px" data-in="lines" data-d="0.4">En el campo descubrimos que el conductor <span class="or">no puede verificar nada.</span></h2>
       <div class="card3" style="margin-top:70px">
@@ -462,7 +509,46 @@
       <p class="lead" style="margin-top:110px;max-width:1400px" data-in="lines" data-d="0.9">Vamos a medir si la confianza se convierte en turnos y trabajos reales.</p>
     </div>
 
-    <div class="x" data-show="39.5" style="left:0;right:0;top:220px;display:flex;flex-direction:column;align-items:center;text-align:center">
+    <div class="x" data-show="39.5" data-hide="40.5" style="left:140px;top:250px;width:1000px">
+      <h2 class="h-l" data-in="lines">¿Y Lucas?</h2>
+      <p class="lead" style="margin-top:26px" data-in="lines" data-d="0.25">Con llave pide varios presupuestos, ve reseñas de trabajos confirmados y elige sabiendo.</p>
+      <div style="display:flex;flex-direction:column;gap:16px;margin-top:44px;width:900px">
+        <div class="glass pick" data-in="rise" data-d="0.7"><div><b>Frenos Sur</b><small><svg class="i"><use href="#i-badge-check"/></svg>★ 4,8 · 23 reseñas verificadas</small></div><span class="pr">$85.000</span></div>
+        <div class="glass pick" data-in="rise" data-d="0.85"><div><b>Mecánica Bernal</b><small><svg class="i"><use href="#i-badge-check"/></svg>★ 4,5 · 17 reseñas verificadas</small></div><span class="pr">$92.000</span></div>
+      </div>
+      <p class="src" style="margin-top:22px" data-in="fade" data-d="1.1">Pantalla ilustrativa · precios de ejemplo</p>
+    </div>
+    <div class="x" data-show="39.5" data-hide="40.5" data-in="up" style="left:1300px;top:300px;width:420px;height:600px">
+      <svg class="lucas" id="lucas2" viewBox="0 0 420 600" width="420" height="600" aria-label="Lucas">
+        <ellipse cx="210" cy="584" rx="130" ry="13" fill="rgba(2,8,28,0.35)"/>
+        <path d="M162 440 L152 568 L203 568 L208 450 Z" fill="#2A4BA0"/>
+        <path d="M212 450 L217 568 L268 568 L258 440 Z" fill="#2A4BA0"/>
+        <rect x="140" y="562" width="68" height="20" rx="10" fill="#fff"/>
+        <rect x="212" y="562" width="68" height="20" rx="10" fill="#fff"/>
+        <path d="M140 282 Q114 360 124 428" stroke="#FF6A2B" stroke-width="34" stroke-linecap="round" fill="none"/>
+        <circle cx="125" cy="440" r="17" fill="#FFD2B5"/>
+        <path d="M140 262 Q210 238 280 262 Q300 270 300 300 L292 456 Q210 472 128 456 L120 300 Q120 270 140 262 Z" fill="#FF6A2B"/>
+        <path d="M182 258 Q210 292 238 258" stroke="#FF9A5C" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M168 398 H252" stroke="rgba(255,255,255,0.28)" stroke-width="4" stroke-linecap="round"/>
+        <g class="arm">
+          <path d="M282 282 Q328 232 336 166" stroke="#FF6A2B" stroke-width="34" stroke-linecap="round" fill="none"/>
+          <circle cx="337" cy="146" r="19" fill="#FFD2B5"/>
+          <ellipse cx="322" cy="150" rx="7" ry="11" fill="#FFD2B5" transform="rotate(-30 322 150)"/>
+        </g>
+        <rect x="194" y="214" width="32" height="42" rx="12" fill="#F0BC9A"/>
+        <circle cx="146" cy="176" r="12" fill="#F0BC9A"/><circle cx="274" cy="176" r="12" fill="#F0BC9A"/>
+        <circle cx="210" cy="170" r="66" fill="#FFD2B5"/>
+        <path d="M146 166 Q138 100 202 96 Q264 92 276 154 Q262 128 232 126 Q198 142 158 132 Q150 146 146 166 Z" fill="#081634"/>
+        <circle cx="186" cy="180" r="6.5" fill="#081634"/><circle cx="234" cy="180" r="6.5" fill="#081634"/>
+        <circle cx="170" cy="200" r="10" fill="#FF9A5C" opacity="0.35"/><circle cx="250" cy="200" r="10" fill="#FF9A5C" opacity="0.35"/>
+        <path class="smile" d="M190 204 Q210 222 230 204" stroke="#081634" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <path class="flat" d="M194 213 Q210 204 226 213" stroke="#081634" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <g class="brow" stroke="#081634" stroke-width="5" stroke-linecap="round"><path d="M172 166 L196 158"/><path d="M248 166 L224 158"/></g>
+      </svg>
+    </div>
+    <i data-show="39.5" data-hide="40.5" data-hook="wave" data-target="#lucas2"></i>
+
+    <div class="x" data-show="40.5" style="left:0;right:0;top:220px;display:flex;flex-direction:column;align-items:center;text-align:center">
       <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIiB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Imx2LWciIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjRkY4MDQ4Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0ZGNUIxRiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9IjEyMCIgaGVpZ2h0PSIxMjAiIHJ4PSIzMCIgZmlsbD0idXJsKCNsdi1nKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxwYXRoIGQ9Ik00MiAzMHY2MCIvPgogICAgPGNpcmNsZSBjeD0iNzQiIGN5PSI0MiIgcj0iMTIiLz4KICAgIDxwYXRoIGQ9Ik03NCA1NHYzNk03NCA3MGg5TTc0IDgxaDciLz4KICA8L2c+Cjwvc3ZnPgo=" alt="llave" style="width:150px;height:150px;filter:drop-shadow(0 30px 60px rgba(255,106,43,0.35))" data-in="pop" />
       <div class="h-xl" style="font-size:140px;margin-top:50px;display:flex;gap:36px"><span data-in="rise" data-d="0.3">Compará.</span><span data-in="rise" data-d="0.5">Elegí.</span><span class="or" data-in="rise" data-d="0.7">Confiá.</span></div>
       <p class="h-s" style="margin-top:60px;font-size:48px" data-in="fade" data-d="1.1">Gracias. ¿Preguntas?</p>
@@ -490,7 +576,7 @@
         ["No encontrar opiniones confiables", 38]
       ],
       citas: [
-        ["Fui a cambiar el aceite y me quisieron cambiar medio auto.", "Conductor, 41 años, Bernal (ejemplo)"],
+        ["Fui a cambiar las pastillas y me quisieron cambiar medio auto.", "Conductor, 41 años, Bernal (ejemplo)"],
         ["Siempre voy al mismo. No porque sea bueno, sino porque no conozco otro.", "Conductora, 29 años, Quilmes (ejemplo)"]
       ]
     },
@@ -587,7 +673,33 @@
     else gsap.to(el, { opacity: 0, y: -30, filter: "blur(6px)", duration: 0.35, ease: "power2.in" });
   }
 
+  var waves = {};
   var HOOK = {
+    wave: {
+      on: function (b) {
+        var id = b.getAttribute("data-target"), arm = $(id + " .arm");
+        if (waves[id]) waves[id].kill();
+        gsap.set(arm, { rotation: 0, svgOrigin: "282 282" });
+        waves[id] = gsap.timeline({ delay: 0.9, repeat: 1, repeatDelay: 1.2 })
+          .to(arm, { rotation: 16, svgOrigin: "282 282", duration: 0.28, ease: "sine.inOut", yoyo: true, repeat: 5 })
+          .to(arm, { rotation: 0, svgOrigin: "282 282", duration: 0.3 });
+      },
+      off: function (b) {
+        var id = b.getAttribute("data-target");
+        if (waves[id]) { waves[id].kill(); waves[id] = null; }
+        var l = $(id); if (!l.classList.contains("worried")) gsap.to($(".arm", l), { rotation: 0, svgOrigin: "282 282", duration: 0.3 });
+      }
+    },
+    worried: {
+      on: function (b, instant) {
+        var l = $(b.getAttribute("data-target")); l.classList.add("worried");
+        gsap.to($(".arm", l), { rotation: 148, svgOrigin: "282 282", duration: instant ? 0 : 0.6, ease: "power3.inOut", overwrite: true });
+      },
+      off: function (b) {
+        var l = $(b.getAttribute("data-target")); l.classList.remove("worried");
+        gsap.to($(".arm", l), { rotation: 0, svgOrigin: "282 282", duration: 0.4, overwrite: true });
+      }
+    },
     focus: {
       on: function (b, instant) { $(".msgs", b.closest(".scene")).classList.add("focus"); },
       off: function (b) { $(".msgs", b.closest(".scene")).classList.remove("focus"); }
